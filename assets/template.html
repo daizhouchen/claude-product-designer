@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════════════╗
+  ║  Product Designer · 产品设计稿模板（典雅风 · v2 · iter-2）                ║
+  ║                                                                          ║
+  ║  ▍ 章节清单（v2 新增 ★ 标记）                                            ║
+  ║   序 · Prologue                                                          ║
+  ║   一幕 · Discover（用户画像 / JTBD / 同理心 / 原声）                     ║
+  ║   二幕 · Define（UVP / Lean Canvas / HMW）                              ║
+  ║   三幕 · Decide（Kano / RICE / MoSCoW / MVP 范围 / ★功能优先级矩阵）    ║
+  ║   四幕 · Design  ★ 改名为「产品 + 旅程」                                ║
+  ║         ★ 产品形态决策 / ★ 核心三屏 wireframe / 旅程地图 /              ║
+  ║         ★ 核心用户流程图 / 信息架构 / 核心场景 / 风险与机会              ║
+  ║   五幕 · Deliver（北极星 / HEART / AARRR / 反指标 / 风险登记）          ║
+  ║   终章 · Epilogue（明天就做的事）                                       ║
+  ║   附录 A / B（调度日志 / 可信度报告）                                   ║
+  ║                                                                          ║
+  ║  ▍ 使用规则                                                              ║
+  ║  1. 占位符均为 {{XXX}} 形式，逐个替换；不要保留任何 {{}} 在最终文档中。   ║
+  ║  2. 章节按 "幕" 组织（序 / 一幕 / 二幕 / 三幕 / 四幕 / 五幕 / 终章 / 附录）  ║
+  ║     若某一幕在本次产物中"未做深"——整块 <section> 删除，并在【附录 A · 理   ║
+  ║     论调度日志】里诚实记录"为什么没做"，不要留空骨架糊弄。                ║
+  ║  3. SVG 嵌入：用 inline <svg>...</svg> 完整粘贴，不要用 <img src=...>。   ║
+  ║     8 个标准 SVG 在 assets/svg/ 下（★ = v2 新增）：                      ║
+  ║       journey-map / kano-matrix / aarrr-funnel / ia-tree /              ║
+  ║       north-star-card / ★mobile-wireframe / ★user-flow-diagram /       ║
+  ║       ★feature-matrix                                                    ║
+  ║  4. 假设标注规则：✅ 已验证  ❓ 待验证  ❌ 已证伪 —— 强制三态，不许含糊。 ║
+  ║  5. 数据未知时填 "TBD" 或 "假设：xx%（待验证）"，绝不编造精确数字。       ║
+  ║  6. 删除整段时连同其 <h2> 章节标题一起删，并更新顶部 TOC 同步删除链接。   ║
+  ║  7. ★【产品形态决策不可省略】即使 MVP / 0→1，也必须在四幕开头明确：      ║
+  ║     是 App / Web / 插件 / 小程序 / 硬件 / SaaS Dashboard / API / Bot     ║
+  ║     哪种，以及"为什么不是其他形态"。形态决策影响后续所有设计取舍。       ║
+  ║  8. ★【至少嵌入 1 个 wireframe】产品稿不能只有理论调度而无产品本身的     ║
+  ║     视觉呈现。如确实跳过 wireframe，须在【附录 A · 调度日志】里说明跳过  ║
+  ║     理由（如"纯 API 产品无界面"），不能默默删掉。                       ║
+  ║  ╚══════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PRODUCT_NAME}} · 产品设计稿</title>
+<style>
+  /* ─── 设计 token ──────────────────────── */
+  :root {
+    --ink: #1a1a1a;
+    --ink-light: #4a4a4a;
+    --ink-muted: #8a8a8a;
+    --xuan: #f9f5ec;        /* 米黄主底 */
+    --xuan-light: #fcfaf4;
+    --xuan-deep: #f5efe3;
+    --zhusha: #b8281f;      /* 绛红 / 朱砂 */
+    --zhusha-soft: #fdf3f2;
+    --zhusha-light: #c26d6d;
+    --songshi: #5b7a6a;     /* 松针绿 */
+    --songshi-soft: #f0f3ef;
+    --dan-jin: #b89b66;     /* 淡金 / 赭石 */
+    --tian-qing: #5b7a8c;   /* 天青 */
+    --tian-qing-soft: #eef2f5;
+    --text-w: 38em;
+    --figure-w: 880px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "方正书宋", "宋体", STSong, SimSun, serif;
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--xuan) 0%, var(--xuan-deep) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* ─── 总体布局：左 sticky TOC + 右正文 ──────── */
+  .layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    max-width: 1240px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+  aside.toc {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 56px 22px 56px 32px;
+    border-right: 1px solid rgba(184, 40, 31, 0.15);
+    background: rgba(249, 245, 236, 0.78);
+    backdrop-filter: saturate(120%) blur(4px);
+    -webkit-backdrop-filter: saturate(120%) blur(4px);
+    font-size: 14px;
+  }
+  aside.toc .toc-eyebrow {
+    font-family: "Crimson Pro", "Georgia", serif;
+    font-size: 11px;
+    color: var(--zhusha);
+    letter-spacing: 0.22em;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+  aside.toc .toc-title {
+    font-family: "Kaiti SC", "KaiTi", serif;
+    font-size: 18px;
+    color: var(--ink);
+    margin: 0 0 28px;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(184, 40, 31, 0.18);
+  }
+  aside.toc h5 {
+    margin: 22px 0 6px;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+  }
+  aside.toc a {
+    display: block;
+    padding: 5px 0 5px 14px;
+    margin-left: -14px;
+    color: var(--ink-light);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+    font-family: "Songti SC", serif;
+    letter-spacing: 0.05em;
+  }
+  aside.toc a:hover {
+    color: var(--zhusha);
+    border-left-color: var(--zhusha);
+  }
+  aside.toc a.act-marker {
+    font-family: "Kaiti SC", "KaiTi", serif;
+    color: var(--ink);
+    font-size: 14.5px;
+    letter-spacing: 0.12em;
+  }
+  aside.toc a.act-marker .act-num {
+    font-family: "Crimson Pro", "Georgia", serif;
+    color: var(--zhusha);
+    font-style: italic;
+    margin-right: 6px;
+    font-size: 13px;
+  }
+  aside.toc a.sub {
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    padding-left: 26px;
+  }
+
+  main.doc {
+    padding: 64px 64px 96px;
+    max-width: 920px;
+  }
+
+  /* ─── 封面 ─────────────────────────── */
+  .cover {
+    padding: 32px 0 56px;
+    margin-bottom: 48px;
+    border-bottom: 1px solid rgba(184, 40, 31, 0.2);
+  }
+  .cover .eyebrow {
+    font-family: "Crimson Pro", "Georgia", serif;
+    font-size: 12px;
+    color: var(--zhusha);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .cover .eyebrow::before {
+    content: "■  ";
+    color: var(--zhusha);
+  }
+  h1.uvp {
+    font-family: "Kaiti SC", "KaiTi", "STKaiti", serif;
+    font-size: clamp(36px, 5.4vw, 56px);
+    line-height: 1.3;
+    margin: 0 0 24px;
+    color: var(--ink);
+    letter-spacing: 0.06em;
+    font-weight: normal;
+  }
+  .cover .subtitle {
+    font-size: 17px;
+    color: var(--ink-light);
+    margin: 0 0 8px;
+    line-height: 1.85;
+    max-width: 32em;
+  }
+  .cover .subtitle .seg {
+    display: inline-block;
+    padding: 1px 8px;
+    margin: 0 2px;
+    background: var(--zhusha-soft);
+    color: var(--zhusha);
+    border-radius: 2px;
+    font-size: 15.5px;
+    font-weight: 500;
+  }
+  .cover .why-now {
+    margin: 28px 0 0;
+    padding: 14px 18px;
+    background: rgba(184, 155, 102, 0.08);
+    border-left: 3px solid var(--dan-jin);
+    font-family: "Kaiti SC", "KaiTi", serif;
+    font-size: 16.5px;
+    color: var(--ink);
+    line-height: 1.8;
+  }
+  .cover .why-now::before {
+    content: "为什么是现在 · ";
+    color: var(--dan-jin);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+  .cover .meta {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    border-top: 1px dashed rgba(184, 40, 31, 0.15);
+    padding-top: 18px;
+  }
+  .cover .meta span strong {
+    color: var(--ink);
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .cover .status {
+    display: inline-block;
+    padding: 2px 10px;
+    font-family: "Crimson Pro", serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    border-radius: 100px;
+    background: var(--songshi-soft);
+    color: var(--songshi);
+    border: 1px solid var(--songshi);
+    text-transform: uppercase;
+  }
+  .cover .status.draft   { color: var(--ink-muted); border-color: var(--ink-muted); background: #f5f5f0; }
+  .cover .status.review  { color: var(--dan-jin); border-color: var(--dan-jin); background: rgba(184, 155, 102, 0.1); }
+  .cover .status.aligned { color: var(--songshi); border-color: var(--songshi); background: var(--songshi-soft); }
+
+  /* ─── 幕 / 章节标题 ─────────────────── */
+  h2.act {
+    font-family: "Kaiti SC", "KaiTi", "STKaiti", serif;
+    font-size: clamp(30px, 4vw, 40px);
+    text-align: center;
+    margin: 88px auto 36px;
+    letter-spacing: 0.18em;
+    font-weight: normal;
+    color: var(--zhusha);
+  }
+  h2.act .act-num {
+    display: block;
+    font-family: "Crimson Pro", "Georgia", serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--zhusha-light);
+    margin-bottom: 8px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+  h2.act::before, h2.act::after {
+    content: "";
+    display: block;
+    width: 2.2em;
+    height: 1px;
+    background: var(--zhusha-light);
+    margin: 12px auto;
+    opacity: 0.7;
+  }
+  h2.act .act-tag {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--ink-muted);
+    font-family: "Songti SC", serif;
+    letter-spacing: 0.18em;
+    font-style: normal;
+  }
+
+  h3.section {
+    font-family: "Songti SC", "Noto Serif SC", serif;
+    font-size: 22px;
+    margin: 40px 0 16px;
+    font-weight: 600;
+    color: var(--ink);
+    border-left: 3px solid var(--zhusha);
+    padding-left: 14px;
+    letter-spacing: 0.04em;
+  }
+  h4.subsection {
+    font-size: 16.5px;
+    margin: 26px 0 10px;
+    font-weight: 600;
+    color: var(--ink-light);
+    letter-spacing: 0.06em;
+  }
+
+  p { margin: 0 0 1.1em; }
+  p + p { text-indent: 2em; }
+  section > p:first-of-type { text-indent: 0; }
+
+  /* ─── 通用文本组件 ─────────────────── */
+  .lede {
+    font-family: "Kaiti SC", "KaiTi", serif;
+    font-size: 17px;
+    color: var(--ink-light);
+    line-height: 1.95;
+    margin: 0 0 28px;
+    padding: 0 0 0 16px;
+    border-left: 2px solid var(--dan-jin);
+  }
+
+  /* 关键术语高亮 */
+  .term {
+    background: var(--zhusha-soft);
+    color: var(--zhusha);
+    padding: 0 4px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .term-2 {
+    background: rgba(184, 155, 102, 0.12);
+    color: var(--dan-jin);
+    padding: 0 4px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  /* ─── 假设清单（✅ ❓ ❌） ─────────── */
+  .hypothesis-list {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 24px;
+  }
+  .hypothesis-list li {
+    padding: 10px 14px 10px 38px;
+    margin: 8px 0;
+    background: var(--xuan-light);
+    border-left: 2px solid transparent;
+    position: relative;
+    font-size: 15.5px;
+    line-height: 1.75;
+  }
+  .hypothesis-list li::before {
+    position: absolute;
+    left: 12px;
+    top: 10px;
+    font-family: "Songti SC", serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+  .hypothesis-list li.verified   { border-left-color: var(--songshi); }
+  .hypothesis-list li.pending    { border-left-color: var(--dan-jin); }
+  .hypothesis-list li.falsified  { border-left-color: var(--zhusha); }
+  .hypothesis-list li.verified::before  { content: "✓ 已验";  color: var(--songshi); }
+  .hypothesis-list li.pending::before   { content: "? 待验";  color: var(--dan-jin); }
+  .hypothesis-list li.falsified::before { content: "× 已伪";  color: var(--zhusha); }
+
+  /* ─── 卡片网格（通用） ─────────────── */
+  .card-grid {
+    display: grid;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 880px) {
+    .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .card-grid.cols-2, .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--xuan-light);
+    padding: 18px 20px;
+    border-top: 2px solid var(--zhusha);
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .card.calm   { border-top-color: var(--dan-jin); }
+  .card.cool   { border-top-color: var(--songshi); }
+  .card.sky    { border-top-color: var(--tian-qing); }
+
+  .card h5 {
+    margin: 0 0 8px;
+    font-size: 11.5px;
+    color: var(--zhusha);
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: "Crimson Pro", "Georgia", serif;
+  }
+  .card.calm h5 { color: var(--dan-jin); }
+  .card.cool h5 { color: var(--songshi); }
+  .card.sky  h5 { color: var(--tian-qing); }
+  .card .card-title {
+    font-family: "Songti SC", serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 8px;
+    line-height: 1.5;
+  }
+  .card p, .card ul {
+    font-size: 14px;
+    color: var(--ink-light);
+    line-height: 1.75;
+    margin: 6px 0;
+  }
+  .card ul { padding-left: 18px; }
+  .card li { margin: 3px 0; }
+
+  /* ─── 用户访谈原声 ─────────────────── */
+  .voice-list { margin: 24px 0; padding: 0; list-style: none; }
+  .voice-list li {
+    padding: 14px 22px;
+    margin: 12px 0;
+    background: var(--xuan-light);
+    border-left: 3px solid var(--zhusha-light);
+    font-family: "Kaiti SC", "KaiTi", serif;
+    font-size: 15.5px;
+    color: var(--ink);
+    line-height: 1.85;
+  }
+  .voice-list li::before { content: "「 "; color: var(--zhusha-light); }
+  .voice-list li::after { content: " 」"; color: var(--zhusha-light); }
+  .voice-list .voice-source {
+    display: block;
+    margin-top: 8px;
+    font-family: "Songti SC", serif;
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-style: normal;
+    letter-spacing: 0.08em;
+  }
+  .voice-list .voice-source::before { content: "— "; }
+
+  /* ─── JTBD 句式 ─────────────────────── */
+  .jtbd-list { list-style: none; padding: 0; margin: 20px 0; }
+  .jtbd-list li {
+    padding: 14px 18px;
+    margin: 10px 0;
+    background: rgba(91, 122, 140, 0.05);
+    border-left: 3px solid var(--tian-qing);
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: var(--ink);
+  }
+  .jtbd-list li .when   { color: var(--tian-qing); font-weight: 600; }
+  .jtbd-list li .iwant  { color: var(--zhusha); font-weight: 600; }
+  .jtbd-list li .sothat { color: var(--songshi); font-weight: 600; }
+
+  /* ─── 同理心地图（4 象限） ─────────── */
+  .empathy-map {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 24px 0;
+    border: 1px solid rgba(184, 40, 31, 0.18);
+    background: var(--xuan-light);
+  }
+  .empathy-map .em-cell {
+    padding: 18px 22px;
+    border-right: 1px solid rgba(184, 40, 31, 0.12);
+    border-bottom: 1px solid rgba(184, 40, 31, 0.12);
+    min-height: 130px;
+  }
+  .empathy-map .em-cell:nth-child(2n) { border-right: none; }
+  .empathy-map .em-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .empathy-map .em-label {
+    font-family: "Crimson Pro", "Georgia", serif;
+    font-size: 11.5px;
+    color: var(--zhusha);
+    letter-spacing: 0.22em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .empathy-map .em-cn {
+    font-family: "Kaiti SC", "KaiTi", serif;
+    font-size: 14px;
+    color: var(--ink);
+    margin-right: 8px;
+    letter-spacing: 0.12em;
+  }
+  .empathy-map .em-content {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--ink-light);
+    margin: 0;
+  }
+
+  /* ─── 价值主张声明 ─────────────────── */
+  .uvp-statement {
+    margin: 28px 0;
+    padding: 28px 32px;
+    background: linear-gradient(to bottom, var(--zhusha-soft), transparent);
+    border: 1px solid rgba(184, 40, 31, 0.2);
+    text-align: center;
+    page-break-inside: avoid;
+  }
+  .uvp-statement .uvp-eyebrow {
+    font-family: "Crimson Pro", "Georgia", serif;
+    font-size: 11.5px;
+    color: var(--zhusha);
+    letter-spacing: 0.25em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .uvp-statement .uvp-text {
+    font-family: "Kaiti SC", "KaiTi", serif;
+    font-size: 22px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── Lean Canvas 9 格表 ─────────────── */
+  .lean-canvas {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 1px;
+    margin: 24px 0;
+    background: rgba(184, 40, 31, 0.18);
+    border: 1px solid rgba(184, 40, 31, 0.2);
+  }
+  .lc-cell {
+    background: var(--xuan-light);
+    padding: 14px 16px;
+    min-height: 130px;
+  }
+  .lc-cell .lc-label {
+    font-family: "Crimson Pro", "Georgia", serif;
+    font-size: 10.5px;
+    color: var(--zhusha);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .lc-cell .lc-cn {
+    font-family: "Kaiti SC", serif;
+    font-size: 13px;
+    color: var(--ink);
+    margin-left: 6px;
+    letter-spacing: 0.08em;
+  }
+  .lc-cell .lc-body {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--ink-light);
+    margin: 0;
+  }
+  .lc-cell ul { padding-left: 18px; margin: 6px 0; }
+  .lc-cell li { margin: 3px 0; }
+
+  /* 9 格区域分配（参照 Ash Maurya 原版） */
+  .lc-problem    { grid-column: 1 / span 2; grid-row: 1 / span 2; }
+  .lc-solution   { grid-column: 3 / span 2; grid-row: 1; }
+  .lc-uvp        { grid-column: 5 / span 2; grid-row: 1 / span 2; }
+  .lc-advantage  { grid-column: 7 / span 2; grid-row: 1; }
+  .lc-segments   { grid-column: 9 / span 2; grid-row: 1 / span 2; }
+  .lc-metrics    { grid-column: 3 / span 2; grid-row: 2; }
+  .lc-channels   { grid-column: 7 / span 2; grid-row: 2; }
+  .lc-cost       { grid-column: 1 / span 5; grid-row: 3; }
+  .lc-revenue    { grid-column: 6 / span 5; grid-row: 3; }
+
+  @media (max-width: 880px) {
+    .lean-canvas { grid-template-columns: 1fr; }
+    .lc-problem, .lc-solution, .lc-uvp, .lc-advantage,
+    .lc-segments, .lc-metrics, .lc-channels, .lc-cost, .lc-revenue {
+      grid-column: 1; grid-row: auto;
+    }
+  }
+
+  /* ─── HMW / 差异化矩阵 ─────────────── */
+  .hmw-list { list-style: none; padding: 0; margin: 20px 0; }
+  .hmw-list li {
+    padding: 10px 16px;
+    margin: 8px 0;
+    background: var(--xuan-light);
+    border-left: 3px solid var(--dan-jin);
+    font-size: 15.5px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .hmw-list li::before {
+    content: "HMW · ";
+    color: var(--dan-jin);
+    font-weight: 600;
+    font-family: "Crimson Pro", serif;
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── 通用表格（含 RICE / HEART / 风险登记） ─────── */
+  table.matrix {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    background: var(--xuan-light);
+  }
+  table.matrix th, table.matrix td {
+    padding: 11px 14px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(184, 40, 31, 0.12);
+    border-right: 1px solid rgba(184, 40, 31, 0.08);
+    line-height: 1.7;
+  }
+  table.matrix th {
+    background: rgba(184, 40, 31, 0.06);
+    color: var(--zhusha);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    font-size: 13px;
+  }
+  table.matrix thead th {
+    text-align: center;
+    border-bottom: 2px solid var(--zhusha-light);
+  }
+  table.matrix td.num {
+    text-align: right;
+    font-family: "Crimson Pro", "Georgia", serif;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  table.matrix td.num.score {
+    font-weight: 600;
+    color: var(--zhusha);
+    background: rgba(184, 40, 31, 0.03);
+  }
+  table.matrix tr:last-child th,
+  table.matrix tr:last-child td { border-bottom: none; }
+  table.matrix th:last-child,
+  table.matrix td:last-child { border-right: none; }
+  /* compact 子集——用于 v1.1/v1.2 简表 */
+  table.matrix.compact { margin: 10px 0; font-size: 13px; background: transparent; }
+  table.matrix.compact td { padding: 7px 10px; line-height: 1.55; }
+  table.matrix.compact td:first-child { color: var(--zhusha); }
+  /* feature-detail-table——v1 必做功能详表的字号微调 */
+  table.matrix.feature-detail-table { font-size: 13px; }
+  table.matrix.feature-detail-table td { padding: 10px 12px; }
+
+  /* ─── MoSCoW 四列 ─────────────────── */
+  .moscow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 24px 0;
+  }
+  @media (max-width: 880px) { .moscow { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .moscow { grid-template-columns: 1fr; } }
+  .ms-col {
+    background: var(--xuan-light);
+    padding: 16px 18px;
+    border-top: 3px solid var(--ink-muted);
+  }
+  .ms-must    { border-top-color: var(--zhusha); }
+  .ms-should  { border-top-color: var(--dan-jin); }
+  .ms-could   { border-top-color: var(--tian-qing); }
+  .ms-wont    { border-top-color: var(--ink-muted); opacity: 0.85; }
+  .ms-col h5 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    color: var(--ink);
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(184, 40, 31, 0.18);
+  }
+  .ms-must h5    { color: var(--zhusha); }
+  .ms-should h5  { color: var(--dan-jin); }
+  .ms-could h5   { color: var(--tian-qing); }
+  .ms-wont h5    { color: var(--ink-muted); }
+  .ms-col ul { padding-left: 18px; margin: 6px 0; font-size: 14px; color: var(--ink-light); }
+  .ms-col li { margin: 6px 0; line-height: 1.7; }
+
+  /* ─── MVP 范围声明 ─────────────────── */
+  .mvp-scope {
+    margin: 24px 0;
+    padding: 20px 24px;
+    background: var(--xuan-light);
+    border: 1px solid rgba(184, 40, 31, 0.2);
+    border-left: 4px solid var(--zhusha);
+  }
+  .mvp-scope dt {
+    margin-top: 12px;
+    font-family: "Crimson Pro", serif;
+    font-size: 11.5px;
+    color: var(--zhusha);
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .mvp-scope dt:first-child { margin-top: 0; }
+  .mvp-scope dd {
+    margin: 4px 0 0;
+    color: var(--ink);
+    line-height: 1.8;
+    font-size: 15.5px;
+  }
+
+  /* ─── SVG 图片框 ─────────────────── */
+  .figure-wrap {
+    margin: 36px auto;
+    padding: 24px;
+    background: var(--xuan-light);
+    border: 1px solid rgba(184, 40, 31, 0.12);
+    text-align: center;
+    page-break-inside: avoid;
+  }
+  .figure-wrap.bare {
+    background: transparent;
+    border: none;
+    padding: 16px 0;
+  }
+  .figure-wrap svg {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+  .figure-caption {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-family: "Kaiti SC", serif;
+    letter-spacing: 0.08em;
+  }
+  .figure-caption::before { content: "图 · "; color: var(--zhusha); }
+  .figure-intro {
+    max-width: var(--text-w);
+    margin: 0 auto 18px;
+    font-size: 15px;
+    color: var(--ink-light);
+    text-align: center;
+    font-family: "Kaiti SC", serif;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── 场景步骤流（文字流） ─────────── */
+  .scenario {
+    margin: 26px 0;
+    padding: 20px 24px;
+    background: var(--xuan-light);
+    border-left: 3px solid var(--tian-qing);
+  }
+  .scenario .scenario-title {
+    font-family: "Songti SC", serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--tian-qing);
+    margin: 0 0 12px;
+    letter-spacing: 0.06em;
+  }
+  .scenario ol { padding-left: 22px; margin: 8px 0 0; counter-reset: step; }
+  .scenario ol li {
+    margin: 8px 0;
+    line-height: 1.8;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+
+  /* ─── 30/60/90 Roadmap ────────────── */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+  @media (max-width: 720px) { .roadmap { grid-template-columns: 1fr; } }
+  .rm-col {
+    background: var(--xuan-light);
+    padding: 20px 22px;
+    border-top: 3px solid var(--dan-jin);
+  }
+  .rm-col h5 {
+    font-family: "Crimson Pro", "Georgia", serif;
+    margin: 0 0 6px;
+    font-size: 32px;
+    color: var(--dan-jin);
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+  .rm-col .rm-sub {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin: 0 0 14px;
+    letter-spacing: 0.1em;
+  }
+  .rm-col ul { padding-left: 18px; margin: 6px 0; font-size: 14px; color: var(--ink-light); }
+  .rm-col li { margin: 5px 0; line-height: 1.7; }
+
+  /* ─── 附录 · 调度日志 / 可信度报告 ─── */
+  .appendix-block {
+    margin: 28px 0;
+    padding: 20px 24px;
+    background: rgba(184, 155, 102, 0.06);
+    border: 1px dashed rgba(184, 155, 102, 0.4);
+  }
+  .appendix-block h4 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: var(--dan-jin);
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+  .appendix-block p, .appendix-block li {
+    font-size: 14.5px;
+    color: var(--ink-light);
+    line-height: 1.8;
+  }
+  .appendix-block ul { padding-left: 20px; margin: 6px 0; }
+
+  /* 置信度三色标 */
+  .conf-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    margin-right: 6px;
+    font-family: "Crimson Pro", serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .conf-verified { background: var(--songshi-soft); color: var(--songshi); border: 1px solid var(--songshi); }
+  .conf-inferred { background: rgba(184, 155, 102, 0.12); color: var(--dan-jin); border: 1px solid var(--dan-jin); }
+  .conf-critical { background: var(--zhusha-soft); color: var(--zhusha); border: 1px solid var(--zhusha); }
+
+  /* ─── 分隔与页脚 ─────────────────── */
+  .separator {
+    text-align: center;
+    margin: 56px auto 40px;
+    color: var(--zhusha-light);
+    letter-spacing: 1em;
+    font-size: 14px;
+  }
+  .separator::before { content: "· · ·"; }
+
+  footer.doc-foot {
+    margin: 80px 0 0;
+    padding: 32px 0;
+    text-align: center;
+    color: var(--ink-muted);
+    font-size: 12.5px;
+    border-top: 1px solid rgba(184, 40, 31, 0.12);
+    line-height: 1.9;
+    letter-spacing: 0.08em;
+  }
+  footer.doc-foot .foot-motto {
+    font-family: "Kaiti SC", serif;
+    font-size: 14px;
+    color: var(--zhusha);
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+  }
+
+  /* ─── 响应式 ─────────────────────── */
+  @media (max-width: 980px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.toc {
+      position: static;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid rgba(184, 40, 31, 0.18);
+      padding: 28px 20px;
+    }
+    main.doc { padding: 40px 24px 80px; }
+  }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    main.doc { padding: 28px 16px 60px; }
+    h2.act { margin: 56px auto 28px; }
+    table.matrix { font-size: 13px; }
+    table.matrix th, table.matrix td { padding: 8px 10px; }
+  }
+
+  /* ─── 打印 ─────────────────────── */
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    .layout { display: block; max-width: 100%; }
+    aside.toc { display: none; }
+    main.doc { padding: 0; max-width: 100%; }
+    h2.act { page-break-before: always; margin-top: 0; }
+    .cover, .uvp-statement, .figure-wrap, .empathy-map,
+    .lean-canvas, .moscow, .roadmap, .mvp-scope, .scenario,
+    .card, .appendix-block { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ╔════ 左侧 sticky TOC ════╗ -->
+  <aside class="toc">
+    <div class="toc-eyebrow">Product Design Doc</div>
+    <div class="toc-title">{{PRODUCT_NAME}}</div>
+
+    <h5>概览</h5>
+    <a href="#prologue" class="act-marker"><span class="act-num">00</span>序 · 问题</a>
+
+    <h5>双 钻</h5>
+    <a href="#act-1" class="act-marker"><span class="act-num">I</span>一幕 · 用户与任务</a>
+    <a href="#users" class="sub">画像 / JTBD</a>
+    <a href="#empathy" class="sub">同理心地图</a>
+    <a href="#voices" class="sub">原声摘录</a>
+
+    <a href="#act-2" class="act-marker"><span class="act-num">II</span>二幕 · 价值与机会</a>
+    <a href="#uvp" class="sub">价值主张</a>
+    <a href="#canvas" class="sub">Lean Canvas</a>
+    <a href="#hmw" class="sub">HMW + 差异化</a>
+
+    <a href="#act-3" class="act-marker"><span class="act-num">III</span>三幕 · MVP 决策</a>
+    <a href="#kano" class="sub">Kano 矩阵</a>
+    <a href="#rice" class="sub">RICE 打分</a>
+    <a href="#moscow" class="sub">MoSCoW</a>
+    <a href="#scope" class="sub">MVP 范围</a>
+    <a href="#feature-matrix" class="sub">功能优先级矩阵 ★</a>
+
+    <a href="#act-4" class="act-marker"><span class="act-num">IV</span>四幕 · 产品 + 旅程</a>
+    <a href="#form-factor" class="sub">产品形态决策 ★</a>
+    <a href="#wireframes" class="sub">核心三屏 wireframe ★</a>
+    <a href="#user-flow" class="sub">核心用户流程 ★</a>
+    <a href="#journey" class="sub">旅程地图</a>
+    <a href="#ia" class="sub">信息架构</a>
+    <a href="#scenarios" class="sub">核心场景</a>
+
+    <a href="#act-5" class="act-marker"><span class="act-num">V</span>五幕 · 指标与风险</a>
+    <a href="#north-star" class="sub">北极星指标</a>
+    <a href="#heart" class="sub">HEART 表格</a>
+    <a href="#aarrr" class="sub">AARRR 漏斗</a>
+    <a href="#guardrail" class="sub">反指标 / 护栏</a>
+    <a href="#risks" class="sub">风险登记</a>
+
+    <h5>收 束</h5>
+    <a href="#epilogue" class="act-marker"><span class="act-num">⋆</span>终章 · 行动清单</a>
+    <a href="#appendix-a" class="act-marker"><span class="act-num">A</span>附录 A · 调度日志</a>
+    <a href="#appendix-b" class="act-marker"><span class="act-num">B</span>附录 B · 可信度</a>
+  </aside>
+
+  <!-- ╔════ 右侧正文 ════╗ -->
+  <main class="doc">
+
+    <!-- ─── 封面 ─────────────────────── -->
+    <header class="cover">
+      <div class="eyebrow">PRODUCT DESIGN DOC · {{PRODUCT_NAME}}</div>
+      <h1 class="uvp">{{COVER_UVP_ONE_LINER}}</h1>
+      <p class="subtitle">
+        为 <span class="seg">{{TARGET_USER}}</span> 解决
+        <span class="seg">{{CORE_PAIN}}</span>，差异化在于
+        <span class="seg">{{DIFFERENTIATOR}}</span>。
+      </p>
+      <p class="why-now">{{WHY_NOW_ONE_LINER}}</p>
+      <div class="meta">
+        <span>版本<strong>{{VERSION}}</strong></span>
+        <span>日期<strong>{{DATE}}</strong></span>
+        <span>设计师<strong>{{DESIGNER}}</strong></span>
+        <!-- 状态 class 三选一：draft / review / aligned -->
+        <span class="status {{STATUS_CLASS}}">{{STATUS_LABEL}}</span>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         序 · 这是个什么问题
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="prologue">
+      <h2 class="act"><span class="act-num">Prologue · 00</span>序<span class="act-tag">这是一个什么问题</span></h2>
+
+      <p class="lede">{{PROBLEM_LEDE}}</p>
+
+      <h3 class="section">问题陈述</h3>
+      <p>{{PROBLEM_STATEMENT_PARAGRAPH}}</p>
+
+      <h3 class="section">假设清单</h3>
+      <!-- LLM 提示：每条假设必须明确状态。如果只有 1-2 条，删除多余的 <li>。 -->
+      <ul class="hypothesis-list">
+        <li class="verified">{{HYPOTHESIS_VERIFIED_1}}</li>
+        <li class="pending">{{HYPOTHESIS_PENDING_1}}</li>
+        <li class="pending">{{HYPOTHESIS_PENDING_2}}</li>
+        <li class="falsified">{{HYPOTHESIS_FALSIFIED_1}}</li>
+      </ul>
+
+      <h3 class="section">现状洞察</h3>
+      <!-- LLM 提示：洞察来自数据/事实/竞品/用户原声。每个 card 一条洞察。 -->
+      <div class="card-grid cols-3">
+        <div class="card calm">
+          <h5>DATA · 数据</h5>
+          <p class="card-title">{{INSIGHT_DATA_TITLE}}</p>
+          <p>{{INSIGHT_DATA_BODY}}</p>
+        </div>
+        <div class="card">
+          <h5>COMPETITION · 竞品</h5>
+          <p class="card-title">{{INSIGHT_COMP_TITLE}}</p>
+          <p>{{INSIGHT_COMP_BODY}}</p>
+        </div>
+        <div class="card cool">
+          <h5>VOICE · 原声</h5>
+          <p class="card-title">{{INSIGHT_VOICE_TITLE}}</p>
+          <p>{{INSIGHT_VOICE_BODY}}</p>
+        </div>
+      </div>
+
+      <h3 class="section">不做什么 · 边界声明</h3>
+      <p>本设计稿在第一阶段<span class="term">不解决</span>以下问题，以避免范围蔓延：</p>
+      <ul>
+        <li>{{OUT_OF_SCOPE_1}}</li>
+        <li>{{OUT_OF_SCOPE_2}}</li>
+        <li>{{OUT_OF_SCOPE_3}}</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         一幕 · 用户与任务（Discover）
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="act-1">
+      <h2 class="act"><span class="act-num">Act I · Discover</span>一 幕<span class="act-tag">用户是谁，他要完成什么</span></h2>
+
+      <h3 class="section" id="users">目标用户画像</h3>
+      <!-- LLM 提示：3-5 个 segment，每个含 demographics / psychographics / behavior。少于 3 个删多余。 -->
+      <div class="card-grid cols-3">
+        <div class="card">
+          <h5>SEGMENT · 01</h5>
+          <p class="card-title">{{SEGMENT_1_NAME}}</p>
+          <p><span class="term-2">demo</span> {{SEGMENT_1_DEMO}}</p>
+          <p><span class="term-2">psycho</span> {{SEGMENT_1_PSYCHO}}</p>
+          <p><span class="term-2">behavior</span> {{SEGMENT_1_BEHAVIOR}}</p>
+        </div>
+        <div class="card calm">
+          <h5>SEGMENT · 02</h5>
+          <p class="card-title">{{SEGMENT_2_NAME}}</p>
+          <p><span class="term-2">demo</span> {{SEGMENT_2_DEMO}}</p>
+          <p><span class="term-2">psycho</span> {{SEGMENT_2_PSYCHO}}</p>
+          <p><span class="term-2">behavior</span> {{SEGMENT_2_BEHAVIOR}}</p>
+        </div>
+        <div class="card cool">
+          <h5>SEGMENT · 03</h5>
+          <p class="card-title">{{SEGMENT_3_NAME}}</p>
+          <p><span class="term-2">demo</span> {{SEGMENT_3_DEMO}}</p>
+          <p><span class="term-2">psycho</span> {{SEGMENT_3_PSYCHO}}</p>
+          <p><span class="term-2">behavior</span> {{SEGMENT_3_BEHAVIOR}}</p>
+        </div>
+      </div>
+
+      <h3 class="section">用户的真实任务 · JTBD</h3>
+      <!-- LLM 提示：用 "当 X 时，我想 Y，以便 Z" 三段式；每条 ≤ 35 字 -->
+      <ul class="jtbd-list">
+        <li><span class="when">当</span> {{JTBD_1_WHEN}} <span class="when">时</span>，<span class="iwant">我想</span> {{JTBD_1_WANT}}，<span class="sothat">以便</span> {{JTBD_1_OUTCOME}}。</li>
+        <li><span class="when">当</span> {{JTBD_2_WHEN}} <span class="when">时</span>，<span class="iwant">我想</span> {{JTBD_2_WANT}}，<span class="sothat">以便</span> {{JTBD_2_OUTCOME}}。</li>
+        <li><span class="when">当</span> {{JTBD_3_WHEN}} <span class="when">时</span>，<span class="iwant">我想</span> {{JTBD_3_WANT}}，<span class="sothat">以便</span> {{JTBD_3_OUTCOME}}。</li>
+      </ul>
+
+      <h3 class="section" id="empathy">同理心地图</h3>
+      <div class="empathy-map">
+        <div class="em-cell">
+          <div class="em-label">SAY <span class="em-cn">· 说</span></div>
+          <p class="em-content">{{EMPATHY_SAY}}</p>
+        </div>
+        <div class="em-cell">
+          <div class="em-label">THINK <span class="em-cn">· 想</span></div>
+          <p class="em-content">{{EMPATHY_THINK}}</p>
+        </div>
+        <div class="em-cell">
+          <div class="em-label">DO <span class="em-cn">· 做</span></div>
+          <p class="em-content">{{EMPATHY_DO}}</p>
+        </div>
+        <div class="em-cell">
+          <div class="em-label">FEEL <span class="em-cn">· 感</span></div>
+          <p class="em-content">{{EMPATHY_FEEL}}</p>
+        </div>
+      </div>
+
+      <h3 class="section" id="voices">用户访谈原声</h3>
+      <!-- LLM 提示：3-5 条；推测原声需在 source 后加 "（推测）" 二字 -->
+      <ul class="voice-list">
+        <li>{{VOICE_QUOTE_1}}<span class="voice-source">{{VOICE_SOURCE_1}}</span></li>
+        <li>{{VOICE_QUOTE_2}}<span class="voice-source">{{VOICE_SOURCE_2}}</span></li>
+        <li>{{VOICE_QUOTE_3}}<span class="voice-source">{{VOICE_SOURCE_3}}</span></li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         二幕 · 价值与机会（Define）
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="act-2">
+      <h2 class="act"><span class="act-num">Act II · Define</span>二 幕<span class="act-tag">价值在哪，机会在哪</span></h2>
+
+      <h3 class="section" id="uvp">价值主张声明</h3>
+      <div class="uvp-statement">
+        <div class="uvp-eyebrow">Unique Value Proposition</div>
+        <p class="uvp-text">{{UVP_FULL_STATEMENT}}</p>
+      </div>
+
+      <h3 class="section" id="canvas">Lean Canvas · 9 格</h3>
+      <!-- LLM 提示：每格 1-3 个要点；列表用 <ul>。空格写 "TBD" 而非留空。 -->
+      <div class="lean-canvas">
+        <div class="lc-cell lc-problem">
+          <div class="lc-label">PROBLEM<span class="lc-cn">问题</span></div>
+          <ul class="lc-body">
+            <li>{{LC_PROBLEM_1}}</li>
+            <li>{{LC_PROBLEM_2}}</li>
+            <li>{{LC_PROBLEM_3}}</li>
+          </ul>
+        </div>
+        <div class="lc-cell lc-solution">
+          <div class="lc-label">SOLUTION<span class="lc-cn">解决方案</span></div>
+          <ul class="lc-body">
+            <li>{{LC_SOLUTION_1}}</li>
+            <li>{{LC_SOLUTION_2}}</li>
+          </ul>
+        </div>
+        <div class="lc-cell lc-uvp">
+          <div class="lc-label">UVP<span class="lc-cn">价值主张</span></div>
+          <p class="lc-body">{{LC_UVP}}</p>
+        </div>
+        <div class="lc-cell lc-advantage">
+          <div class="lc-label">ADVANTAGE<span class="lc-cn">不公平优势</span></div>
+          <p class="lc-body">{{LC_ADVANTAGE}}</p>
+        </div>
+        <div class="lc-cell lc-segments">
+          <div class="lc-label">SEGMENTS<span class="lc-cn">客户细分</span></div>
+          <ul class="lc-body">
+            <li>{{LC_SEGMENT_1}}</li>
+            <li>{{LC_SEGMENT_2}}</li>
+          </ul>
+        </div>
+        <div class="lc-cell lc-metrics">
+          <div class="lc-label">KEY METRICS<span class="lc-cn">关键指标</span></div>
+          <ul class="lc-body">
+            <li>{{LC_METRIC_1}}</li>
+            <li>{{LC_METRIC_2}}</li>
+          </ul>
+        </div>
+        <div class="lc-cell lc-channels">
+          <div class="lc-label">CHANNELS<span class="lc-cn">渠道</span></div>
+          <ul class="lc-body">
+            <li>{{LC_CHANNEL_1}}</li>
+            <li>{{LC_CHANNEL_2}}</li>
+          </ul>
+        </div>
+        <div class="lc-cell lc-cost">
+          <div class="lc-label">COST STRUCTURE<span class="lc-cn">成本结构</span></div>
+          <p class="lc-body">{{LC_COST}}</p>
+        </div>
+        <div class="lc-cell lc-revenue">
+          <div class="lc-label">REVENUE STREAMS<span class="lc-cn">收入流</span></div>
+          <p class="lc-body">{{LC_REVENUE}}</p>
+        </div>
+      </div>
+
+      <h3 class="section" id="hmw">HMW 问题列表</h3>
+      <ul class="hmw-list">
+        <li>{{HMW_1}}</li>
+        <li>{{HMW_2}}</li>
+        <li>{{HMW_3}}</li>
+        <li>{{HMW_4}}</li>
+      </ul>
+
+      <h3 class="section">差异化矩阵 · vs 竞品</h3>
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th style="width:22%;">维度</th>
+            <th>本产品</th>
+            <th>{{COMPETITOR_1}}</th>
+            <th>{{COMPETITOR_2}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>{{DIFF_DIM_1}}</th>
+            <td>{{DIFF_OURS_1}}</td>
+            <td>{{DIFF_C1_1}}</td>
+            <td>{{DIFF_C2_1}}</td>
+          </tr>
+          <tr>
+            <th>{{DIFF_DIM_2}}</th>
+            <td>{{DIFF_OURS_2}}</td>
+            <td>{{DIFF_C1_2}}</td>
+            <td>{{DIFF_C2_2}}</td>
+          </tr>
+          <tr>
+            <th>{{DIFF_DIM_3}}</th>
+            <td>{{DIFF_OURS_3}}</td>
+            <td>{{DIFF_C1_3}}</td>
+            <td>{{DIFF_C2_3}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         三幕 · MVP 决策（Decide）
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="act-3">
+      <h2 class="act"><span class="act-num">Act III · Decide</span>三 幕<span class="act-tag">v1 做什么，不做什么</span></h2>
+
+      <h3 class="section" id="kano">Kano 矩阵 · 功能分类</h3>
+      <p class="figure-intro">把候选功能按"用户期望—满意度"两轴分类——决定哪些必须做、哪些值得惊喜投入</p>
+      <div class="figure-wrap">
+        <!-- LLM 提示：将 assets/svg/kano-matrix.svg 全文 inline 粘贴在此处（v2 版）。
+             替换其中 {{F1_*}}…{{F6_*}} 占位符：
+               - F*_X / F*_Y    曲线区锚位（X: 130-650, Y: 80-455）
+               - F*_NUM         锚点编号（"①" 等，≤ 2 字）
+               - F*_LABEL       功能短名（≤ 8 字，曲线锚点圆 + 右侧列表共用）
+               - F*_LIST_DESC   右侧列表完整描述（≤ 14 字）
+               - F*_CLASS       kano-must / kano-perf / kano-delight / kano-indiff / kano-reverse
+               - F*_LIST_COLOR  与 CLASS 对应（#b8281f / #1a1a1a / #b89b66 / #8a8a8a / #5b7a6a）
+             功能少于 6 个时删除多余的 <g class="kano-feature"> 整段 + 对应右侧列表行 + 引线。 -->
+        {{KANO_SVG_INLINE}}
+        <div class="figure-caption">候选功能的 Kano 分类</div>
+      </div>
+
+      <h3 class="section" id="rice">RICE 打分表</h3>
+      <!-- 公式：Score = (Reach × Impact × Confidence) / Effort -->
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th style="width:28%;">功能</th>
+            <th>Reach<br/><span style="font-weight:normal;font-size:11px;color:#8a8a8a;">触达 (人/周)</span></th>
+            <th>Impact<br/><span style="font-weight:normal;font-size:11px;color:#8a8a8a;">影响 (0.25/.5/1/2/3)</span></th>
+            <th>Confidence<br/><span style="font-weight:normal;font-size:11px;color:#8a8a8a;">置信度 (%)</span></th>
+            <th>Effort<br/><span style="font-weight:normal;font-size:11px;color:#8a8a8a;">人月</span></th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{RICE_F1_NAME}}</td>
+            <td class="num">{{RICE_F1_R}}</td>
+            <td class="num">{{RICE_F1_I}}</td>
+            <td class="num">{{RICE_F1_C}}</td>
+            <td class="num">{{RICE_F1_E}}</td>
+            <td class="num score">{{RICE_F1_SCORE}}</td>
+          </tr>
+          <tr>
+            <td>{{RICE_F2_NAME}}</td>
+            <td class="num">{{RICE_F2_R}}</td>
+            <td class="num">{{RICE_F2_I}}</td>
+            <td class="num">{{RICE_F2_C}}</td>
+            <td class="num">{{RICE_F2_E}}</td>
+            <td class="num score">{{RICE_F2_SCORE}}</td>
+          </tr>
+          <tr>
+            <td>{{RICE_F3_NAME}}</td>
+            <td class="num">{{RICE_F3_R}}</td>
+            <td class="num">{{RICE_F3_I}}</td>
+            <td class="num">{{RICE_F3_C}}</td>
+            <td class="num">{{RICE_F3_E}}</td>
+            <td class="num score">{{RICE_F3_SCORE}}</td>
+          </tr>
+          <tr>
+            <td>{{RICE_F4_NAME}}</td>
+            <td class="num">{{RICE_F4_R}}</td>
+            <td class="num">{{RICE_F4_I}}</td>
+            <td class="num">{{RICE_F4_C}}</td>
+            <td class="num">{{RICE_F4_E}}</td>
+            <td class="num score">{{RICE_F4_SCORE}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="section" id="moscow">MoSCoW · 必要性划分</h3>
+      <div class="moscow">
+        <div class="ms-col ms-must">
+          <h5>MUST · 必做</h5>
+          <ul>
+            <li>{{MOSCOW_MUST_1}}</li>
+            <li>{{MOSCOW_MUST_2}}</li>
+            <li>{{MOSCOW_MUST_3}}</li>
+          </ul>
+        </div>
+        <div class="ms-col ms-should">
+          <h5>SHOULD · 应做</h5>
+          <ul>
+            <li>{{MOSCOW_SHOULD_1}}</li>
+            <li>{{MOSCOW_SHOULD_2}}</li>
+          </ul>
+        </div>
+        <div class="ms-col ms-could">
+          <h5>COULD · 可做</h5>
+          <ul>
+            <li>{{MOSCOW_COULD_1}}</li>
+            <li>{{MOSCOW_COULD_2}}</li>
+          </ul>
+        </div>
+        <div class="ms-col ms-wont">
+          <h5>WON'T · 暂不做</h5>
+          <ul>
+            <li>{{MOSCOW_WONT_1}}</li>
+            <li>{{MOSCOW_WONT_2}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="section" id="scope">MVP 范围声明</h3>
+      <dl class="mvp-scope">
+        <dt>v1 做 · IN SCOPE</dt>
+        <dd>{{MVP_IN_SCOPE}}</dd>
+        <dt>v1 不做 · OUT OF SCOPE</dt>
+        <dd>{{MVP_OUT_SCOPE}}</dd>
+        <dt>为什么这样切 · RATIONALE</dt>
+        <dd>{{MVP_RATIONALE}}</dd>
+        <dt>成功判据 · SUCCESS CRITERIA</dt>
+        <dd>{{MVP_SUCCESS_CRITERIA}}</dd>
+      </dl>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           ★ v2 新增：功能优先级矩阵（v1.0 / v1.1 / v1.2 三阶段全景）
+           本节让读者一眼看到"v1 必做 / v1.1 应做 / v1.2 可做"的全貌
+           ═══════════════════════════════════════════════════════════════ -->
+      <h3 class="section" id="feature-matrix">功能优先级矩阵 · v1 / v1.1 / v1.2</h3>
+      <p class="figure-intro">把功能按 MoSCoW 切到三个版本，让 roadmap 一图看清——哪些必做、哪些应做、哪些可做</p>
+      <div class="figure-wrap bare">
+        <!-- LLM 提示：将 assets/svg/feature-matrix.svg 全文 inline 粘贴在此处。
+             替换 {{V1_FEAT_1_NAME}}…{{V1_FEAT_5_NAME}} / {{V11_FEAT_*}} / {{V12_FEAT_*}} 及对应 _DESC、_RICE。
+             每个功能名 ≤ 8 字，DESC ≤ 16 字，RICE 标签 ≤ 8 字。三个 KPI 用于点出每个版本的核心目标。
+             若 v1 功能不足 5 个，删除多余 <g class="feat-card"> 块；若需 6 个以上请克隆但保持视觉拥挤度。 -->
+        {{FEATURE_MATRIX_SVG_INLINE}}
+        <div class="figure-caption">{{PRODUCT_NAME}} 三版本功能优先级矩阵</div>
+      </div>
+
+      <h4 class="section">v1.0 必做功能详表</h4>
+      <p class="figure-intro">v1 必做功能的实现细节——功能名 / 一句话描述 / 触发场景 / 状态机要点 / 边界 case</p>
+      <table class="matrix feature-detail-table">
+        <thead>
+          <tr>
+            <th style="width:14%;">功能名</th>
+            <th style="width:22%;">一句话描述</th>
+            <th style="width:18%;">触发场景</th>
+            <th style="width:22%;">状态机要点</th>
+            <th>边界 case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>{{V1_DETAIL_F1_NAME}}</strong></td>
+            <td>{{V1_DETAIL_F1_DESC}}</td>
+            <td>{{V1_DETAIL_F1_TRIGGER}}</td>
+            <td>{{V1_DETAIL_F1_STATE}}</td>
+            <td>{{V1_DETAIL_F1_EDGE}}</td>
+          </tr>
+          <tr>
+            <td><strong>{{V1_DETAIL_F2_NAME}}</strong></td>
+            <td>{{V1_DETAIL_F2_DESC}}</td>
+            <td>{{V1_DETAIL_F2_TRIGGER}}</td>
+            <td>{{V1_DETAIL_F2_STATE}}</td>
+            <td>{{V1_DETAIL_F2_EDGE}}</td>
+          </tr>
+          <tr>
+            <td><strong>{{V1_DETAIL_F3_NAME}}</strong></td>
+            <td>{{V1_DETAIL_F3_DESC}}</td>
+            <td>{{V1_DETAIL_F3_TRIGGER}}</td>
+            <td>{{V1_DETAIL_F3_STATE}}</td>
+            <td>{{V1_DETAIL_F3_EDGE}}</td>
+          </tr>
+          <tr>
+            <td><strong>{{V1_DETAIL_F4_NAME}}</strong></td>
+            <td>{{V1_DETAIL_F4_DESC}}</td>
+            <td>{{V1_DETAIL_F4_TRIGGER}}</td>
+            <td>{{V1_DETAIL_F4_STATE}}</td>
+            <td>{{V1_DETAIL_F4_EDGE}}</td>
+          </tr>
+          <tr>
+            <td><strong>{{V1_DETAIL_F5_NAME}}</strong></td>
+            <td>{{V1_DETAIL_F5_DESC}}</td>
+            <td>{{V1_DETAIL_F5_TRIGGER}}</td>
+            <td>{{V1_DETAIL_F5_STATE}}</td>
+            <td>{{V1_DETAIL_F5_EDGE}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 class="section">v1.1 / v1.2 概要表</h4>
+      <p class="figure-intro">两个增长版本的功能概要——名称 + 一句话描述 + 触发条件</p>
+      <div class="card-grid cols-2">
+        <div class="card cool">
+          <h5>v1.1 · GROWTH</h5>
+          <table class="matrix compact">
+            <tbody>
+              <tr><td style="width:32%;"><strong>{{V11_DETAIL_F1_NAME}}</strong></td><td>{{V11_DETAIL_F1_DESC}}</td></tr>
+              <tr><td><strong>{{V11_DETAIL_F2_NAME}}</strong></td><td>{{V11_DETAIL_F2_DESC}}</td></tr>
+              <tr><td><strong>{{V11_DETAIL_F3_NAME}}</strong></td><td>{{V11_DETAIL_F3_DESC}}</td></tr>
+              <tr><td><strong>{{V11_DETAIL_F4_NAME}}</strong></td><td>{{V11_DETAIL_F4_DESC}}</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:#8a8a8a;margin-top:8px;">触发条件 · {{V11_TRIGGER_CONDITION}}</p>
+        </div>
+        <div class="card">
+          <h5>v1.2 · DELIGHT</h5>
+          <table class="matrix compact">
+            <tbody>
+              <tr><td style="width:32%;"><strong>{{V12_DETAIL_F1_NAME}}</strong></td><td>{{V12_DETAIL_F1_DESC}}</td></tr>
+              <tr><td><strong>{{V12_DETAIL_F2_NAME}}</strong></td><td>{{V12_DETAIL_F2_DESC}}</td></tr>
+              <tr><td><strong>{{V12_DETAIL_F3_NAME}}</strong></td><td>{{V12_DETAIL_F3_DESC}}</td></tr>
+              <tr><td><strong>{{V12_DETAIL_F4_NAME}}</strong></td><td>{{V12_DETAIL_F4_DESC}}</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:#8a8a8a;margin-top:8px;">触发条件 · {{V12_TRIGGER_CONDITION}}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         四幕 · 产品 + 旅程（Design）  ★ v2 改名：从"用户旅程"扩展为"产品 + 旅程"
+         新增 3 节：产品形态决策 / 核心 wireframe / 核心用户流程图
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="act-4">
+      <h2 class="act"><span class="act-num">Act IV · Design</span>四 幕 · 产 品 + 旅 程<span class="act-tag">产品长什么样，用户怎么走到价值</span></h2>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           ★ v2 新增：产品形态决策（form-factor）
+           关键约束：即使 MVP / 0→1，也必须明确产品形态——是 App / Web /
+           小程序 / 浏览器插件 / 硬件 / SaaS Dashboard / API / Bot 哪一种，
+           并解释"为什么不是其他形态"。形态决策影响后续所有设计取舍。
+           ═══════════════════════════════════════════════════════════════ -->
+      <h3 class="section" id="form-factor">产品形态决策</h3>
+      <p class="figure-intro">在画 wireframe 之前，先定形态——形态决定分发渠道、技术选型、用户接触点的全部假设</p>
+      <dl class="mvp-scope">
+        <dt>我们做的是 · WHAT WE'RE BUILDING</dt>
+        <dd><strong>{{FORM_FACTOR_TYPE}}</strong><br/>
+            <span style="color:#8a8a8a;font-size:14px;">（候选：iOS App / Android App / 跨端 App / Web 应用 / 浏览器插件 / 微信小程序 / 飞书机器人 / SaaS Dashboard / 命令行工具 / API 服务 / 物理硬件 / 其他）</span></dd>
+        <dt>为什么是这个形态 · WHY THIS</dt>
+        <dd>{{FORM_FACTOR_WHY}}
+          <ul style="margin-top:8px;">
+            <li><strong>技术可行性</strong>·{{FORM_FACTOR_WHY_TECH}}</li>
+            <li><strong>分发渠道</strong>·{{FORM_FACTOR_WHY_DISTRIBUTION}}</li>
+            <li><strong>用户接触点</strong>·{{FORM_FACTOR_WHY_TOUCHPOINT}}</li>
+          </ul>
+        </dd>
+        <dt>为什么不是其他形态 · WHY NOT OTHERS</dt>
+        <dd>对比 1-2 个被否决的候选形态及否决理由：
+          <ul style="margin-top:8px;">
+            <li><strong>否决候选 A · {{FORM_FACTOR_REJECT_A_NAME}}</strong>·{{FORM_FACTOR_REJECT_A_REASON}}</li>
+            <li><strong>否决候选 B · {{FORM_FACTOR_REJECT_B_NAME}}</strong>·{{FORM_FACTOR_REJECT_B_REASON}}</li>
+          </ul>
+        </dd>
+        <dt>跨端策略 · MULTI-PLATFORM</dt>
+        <dd>
+          <ul>
+            <li><strong>主端</strong>·{{FORM_FACTOR_PRIMARY}}（v1 全部精力）</li>
+            <li><strong>辅端</strong>·{{FORM_FACTOR_SECONDARY}}（v1.1 或以后）</li>
+            <li><strong>不做的端</strong>·{{FORM_FACTOR_EXCLUDED}}（明确不做的端 + 理由）</li>
+          </ul>
+        </dd>
+      </dl>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           ★ v2 新增：核心三屏 wireframe
+           让读者一眼看到 v1 三个核心屏长什么样、彼此如何流转
+           ═══════════════════════════════════════════════════════════════ -->
+      <h3 class="section" id="wireframes">核心三屏 · Wireframe</h3>
+      <p class="figure-intro">不画像素级 mockup——只画线框 + 关键 UI 元素 + 屏间触发，让产品形态从抽象变具体</p>
+      <div class="figure-wrap bare">
+        <!-- LLM 提示：将 assets/svg/mobile-wireframe.svg 全文 inline 粘贴在此处。
+             替换 {{SCREEN_*_TAG}} {{SCREEN_*_TITLE}} {{S1_E1}}…{{S3_E4}} {{S2_CTA}} {{S3_BTN}} {{S1_TAB}}
+             {{TRIGGER_1_2}} {{TRIGGER_2_3}}。屏 1/2/3 推荐组合：
+               · 工具型：主屏 / 编辑详情 / 完成态
+               · 内容型：Feed 流 / 内容详情 / 个人中心
+               · 流程型：Onboarding / 主操作 / 异常态
+               · 交易型：商品列表 / 商品详情 / 结算确认
+             如非移动产品（如 SaaS Dashboard / Web），可保留手机外壳但语义化为 3 个核心视图。
+             如纯 API 产品无界面，删除本节并在【附录 A】写明跳过理由。 -->
+        {{MOBILE_WIREFRAME_SVG_INLINE}}
+        <div class="figure-caption">v1 核心三屏 · {{WIREFRAME_SCENARIO_NAME}}</div>
+      </div>
+
+      <h4 class="section">屏内关键元素说明</h4>
+      <div class="card-grid cols-3">
+        <div class="card">
+          <h5>SCREEN · 01 · {{SCREEN_1_TAG}}</h5>
+          <p class="card-title">{{SCREEN_1_TITLE}}</p>
+          <p>{{SCREEN_1_DESCRIPTION}}</p>
+          <p style="font-size:12px;color:#8a8a8a;">关键元素 · {{SCREEN_1_KEY_ELEMENTS}}</p>
+        </div>
+        <div class="card cool">
+          <h5>SCREEN · 02 · {{SCREEN_2_TAG}}</h5>
+          <p class="card-title">{{SCREEN_2_TITLE}}</p>
+          <p>{{SCREEN_2_DESCRIPTION}}</p>
+          <p style="font-size:12px;color:#8a8a8a;">关键元素 · {{SCREEN_2_KEY_ELEMENTS}}</p>
+        </div>
+        <div class="card">
+          <h5>SCREEN · 03 · {{SCREEN_3_TAG}}</h5>
+          <p class="card-title">{{SCREEN_3_TITLE}}</p>
+          <p>{{SCREEN_3_DESCRIPTION}}</p>
+          <p style="font-size:12px;color:#8a8a8a;">关键元素 · {{SCREEN_3_KEY_ELEMENTS}}</p>
+        </div>
+      </div>
+
+      <h4 class="section">异常态与降级</h4>
+      <p>{{WIREFRAME_ERROR_HANDLING}}</p>
+      <ul>
+        <li><strong>网络异常</strong>·{{ERROR_NETWORK}}</li>
+        <li><strong>空状态 / 首次进入</strong>·{{ERROR_EMPTY}}</li>
+        <li><strong>失败 / 错误响应</strong>·{{ERROR_FAILURE}}</li>
+        <li><strong>权限缺失 / 未登录</strong>·{{ERROR_AUTH}}</li>
+      </ul>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           ★ v2 新增：核心用户流程图
+           展示 1-2 个核心 flow 的完整路径（含决策分支与多终点）
+           ═══════════════════════════════════════════════════════════════ -->
+      <h3 class="section" id="user-flow">核心用户流程</h3>
+      <p class="figure-intro">从触发到终态——把核心 flow 的每一步、每一个分叉、每一个终点都画清楚</p>
+      <div class="figure-wrap bare">
+        <!-- LLM 提示：将 assets/svg/user-flow-diagram.svg 全文 inline 粘贴在此处。
+             替换 {{FLOW_TITLE}} {{ACTOR}} {{START_LABEL}} {{STEP_1}}…{{STEP_5}}
+             {{DECISION_1}} {{DECISION_2}} {{D1_YES}} {{D1_NO}} {{D2_YES}} {{D2_NO}}
+             {{END_SUCCESS}} {{END_FAIL}} {{END_INTERRUPT}}。
+             形状语义固化：圆=起点/终点，矩形=步骤，菱形=决策。
+             如只 1 个决策、2 个终点，删除对应 <g> 块和指向它的 path。 -->
+        {{USER_FLOW_SVG_INLINE}}
+        <div class="figure-caption">核心 flow · {{FLOW_TITLE}}</div>
+      </div>
+
+      <h4 class="section">Flow 文字补充</h4>
+      <div class="card-grid cols-2">
+        <div class="card cool">
+          <h5>FLOW · 01 · {{FLOW_1_NAME}}</h5>
+          <p><strong>触发</strong>·{{FLOW_1_TRIGGER}}</p>
+          <p><strong>步骤</strong>·{{FLOW_1_STEPS}}</p>
+          <p><strong>分支</strong>·{{FLOW_1_BRANCHES}}</p>
+          <p><strong>终态</strong>·{{FLOW_1_END_STATES}}</p>
+        </div>
+        <div class="card">
+          <h5>FLOW · 02 · {{FLOW_2_NAME}}</h5>
+          <p><strong>触发</strong>·{{FLOW_2_TRIGGER}}</p>
+          <p><strong>步骤</strong>·{{FLOW_2_STEPS}}</p>
+          <p><strong>分支</strong>·{{FLOW_2_BRANCHES}}</p>
+          <p><strong>终态</strong>·{{FLOW_2_END_STATES}}</p>
+        </div>
+      </div>
+
+      <!-- ════════════ 以下是原有内容（旅程地图 / 信息架构 / 核心场景） ════════════ -->
+
+      <h3 class="section" id="journey">用户旅程地图</h3>
+      <p class="figure-intro">五个阶段——动作、心声、情感、痛点、机会同时上桌</p>
+      <div class="figure-wrap bare">
+        <!-- LLM 提示：将 assets/svg/journey-map.svg 全文 inline 粘贴在此处。
+             替换 {{STAGE_*}} {{ACTION_*}} {{VOICE_*}} {{EMO_Y_*}} {{EMO_FACE_*}} {{PAIN_*}} {{OPP_*}}。
+             情感 Y 取值范围 230(高) ~ 380(低)，中性 305。 -->
+        {{JOURNEY_SVG_INLINE}}
+        <div class="figure-caption">{{TARGET_USER}} 完整旅程</div>
+      </div>
+
+      <h3 class="section" id="ia">关键页面信息架构</h3>
+      <p class="figure-intro">主页 → 一级菜单 → 功能页 → 详情/弹窗，四层组织</p>
+      <div class="figure-wrap bare">
+        <!-- LLM 提示：将 assets/svg/ia-tree.svg 全文 inline 粘贴在此处。
+             替换 {{ROOT_NAME}} {{L1_*_NAME}} {{L2_*_NAME}} {{L3_*_NAME}}。 -->
+        {{IA_SVG_INLINE}}
+        <div class="figure-caption">v1 信息架构</div>
+      </div>
+
+      <h3 class="section" id="scenarios">核心场景 · 文字流</h3>
+      <!-- LLM 提示：3-5 个场景，每个用编号 ol 描述步骤。 -->
+      <div class="scenario">
+        <p class="scenario-title">场景 01 · {{SCENARIO_1_NAME}}</p>
+        <ol>
+          <li>{{SCENARIO_1_STEP_1}}</li>
+          <li>{{SCENARIO_1_STEP_2}}</li>
+          <li>{{SCENARIO_1_STEP_3}}</li>
+          <li>{{SCENARIO_1_STEP_4}}</li>
+        </ol>
+      </div>
+      <div class="scenario">
+        <p class="scenario-title">场景 02 · {{SCENARIO_2_NAME}}</p>
+        <ol>
+          <li>{{SCENARIO_2_STEP_1}}</li>
+          <li>{{SCENARIO_2_STEP_2}}</li>
+          <li>{{SCENARIO_2_STEP_3}}</li>
+        </ol>
+      </div>
+      <div class="scenario">
+        <p class="scenario-title">场景 03 · {{SCENARIO_3_NAME}}</p>
+        <ol>
+          <li>{{SCENARIO_3_STEP_1}}</li>
+          <li>{{SCENARIO_3_STEP_2}}</li>
+          <li>{{SCENARIO_3_STEP_3}}</li>
+        </ol>
+      </div>
+
+      <h3 class="section">旅程中的风险与机会点</h3>
+      <div class="card-grid cols-2">
+        <div class="card">
+          <h5>RISK · 旅程风险</h5>
+          <p class="card-title">{{JOURNEY_RISK_TITLE}}</p>
+          <p>{{JOURNEY_RISK_BODY}}</p>
+        </div>
+        <div class="card cool">
+          <h5>OPPORTUNITY · 增长机会</h5>
+          <p class="card-title">{{JOURNEY_OPP_TITLE}}</p>
+          <p>{{JOURNEY_OPP_BODY}}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         五幕 · 指标与风险（Deliver）
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="act-5">
+      <h2 class="act"><span class="act-num">Act V · Deliver</span>五 幕<span class="act-tag">怎么知道成了、怎么知道偏了</span></h2>
+
+      <h3 class="section" id="north-star">北极星指标</h3>
+      <div class="figure-wrap bare">
+        <!-- LLM 提示：将 assets/svg/north-star-card.svg 全文 inline 粘贴在此处（v2 版）。
+             替换：
+               - {{METRIC_NAME}}        北极星短名（**硬约束 ≤ 12 字**），如 "周活跃创作者数"
+               - {{METRIC_VALUE}}       数值（≤ 8 字），如 "1,240" 或 "TBD"
+               - {{METRIC_UNIT}}        单位（≤ 6 字），如 "/ 周"、"%"、"人/月"
+               - {{METRIC_DEFINITION}}  指标完整定义（**v2 新增**，≤ 32 字，独占下方行），
+                                         例 "月内付费 + 主动 Kill ≥ 1 个 idea 的用户数"
+                                         ⚠️ 如果 METRIC_NAME 超过 12 字必须拆——长描述放 DEFINITION 行。
+               - {{INPUT_1_NAME}} … {{INPUT_4_NAME}}        输入指标短名（≤ 8 字）
+               - {{INPUT_1_FORMULA}} … {{INPUT_4_FORMULA}}  与北极星的关系（≤ 12 字） -->
+        {{NORTH_STAR_SVG_INLINE}}
+        <div class="figure-caption">北极星与四个输入指标</div>
+      </div>
+
+      <h3 class="section" id="heart">HEART 指标表 · Google 框架</h3>
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th style="width:14%;">维度</th>
+            <th>Goal · 目标</th>
+            <th>Signal · 信号</th>
+            <th>Metric · 度量</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Happiness<br/>愉悦</th>
+            <td>{{HEART_HAPPY_GOAL}}</td>
+            <td>{{HEART_HAPPY_SIGNAL}}</td>
+            <td>{{HEART_HAPPY_METRIC}}</td>
+          </tr>
+          <tr>
+            <th>Engagement<br/>参与</th>
+            <td>{{HEART_ENGAGE_GOAL}}</td>
+            <td>{{HEART_ENGAGE_SIGNAL}}</td>
+            <td>{{HEART_ENGAGE_METRIC}}</td>
+          </tr>
+          <tr>
+            <th>Adoption<br/>采纳</th>
+            <td>{{HEART_ADOPT_GOAL}}</td>
+            <td>{{HEART_ADOPT_SIGNAL}}</td>
+            <td>{{HEART_ADOPT_METRIC}}</td>
+          </tr>
+          <tr>
+            <th>Retention<br/>留存</th>
+            <td>{{HEART_RETAIN_GOAL}}</td>
+            <td>{{HEART_RETAIN_SIGNAL}}</td>
+            <td>{{HEART_RETAIN_METRIC}}</td>
+          </tr>
+          <tr>
+            <th>Task Success<br/>任务成功</th>
+            <td>{{HEART_TASK_GOAL}}</td>
+            <td>{{HEART_TASK_SIGNAL}}</td>
+            <td>{{HEART_TASK_METRIC}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="section" id="aarrr">AARRR 漏斗</h3>
+      <p class="figure-intro">海盗指标——从获取到转介，五级转化的全景</p>
+      <div class="figure-wrap bare">
+        <!-- LLM 提示：将 assets/svg/aarrr-funnel.svg 全文 inline 粘贴在此处。
+             替换 {{A1_VALUE}}…{{A5_VALUE}} {{A1_DESC}}…{{A5_DESC}} {{R12}}{{R23}}{{R34}}{{R45}}。 -->
+        {{AARRR_SVG_INLINE}}
+        <div class="figure-caption">v1 AARRR 漏斗目标</div>
+      </div>
+
+      <h3 class="section" id="guardrail">反指标 / 护栏指标</h3>
+      <p>下列指标若被"做坏"，说明北极星的提升是以损害体验或长期价值为代价——必须同步监控：</p>
+      <div class="card-grid cols-3">
+        <div class="card">
+          <h5>GUARDRAIL · 01</h5>
+          <p class="card-title">{{GUARDRAIL_1_NAME}}</p>
+          <p>{{GUARDRAIL_1_DESC}}</p>
+        </div>
+        <div class="card calm">
+          <h5>GUARDRAIL · 02</h5>
+          <p class="card-title">{{GUARDRAIL_2_NAME}}</p>
+          <p>{{GUARDRAIL_2_DESC}}</p>
+        </div>
+        <div class="card cool">
+          <h5>GUARDRAIL · 03</h5>
+          <p class="card-title">{{GUARDRAIL_3_NAME}}</p>
+          <p>{{GUARDRAIL_3_DESC}}</p>
+        </div>
+      </div>
+
+      <h3 class="section">假设验证矩阵</h3>
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th style="width:28%;">假设</th>
+            <th>验证方法</th>
+            <th>判定阈值</th>
+            <th>窗口</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{TEST_H_1}}</td>
+            <td>{{TEST_M_1}}</td>
+            <td>{{TEST_T_1}}</td>
+            <td>{{TEST_W_1}}</td>
+          </tr>
+          <tr>
+            <td>{{TEST_H_2}}</td>
+            <td>{{TEST_M_2}}</td>
+            <td>{{TEST_T_2}}</td>
+            <td>{{TEST_W_2}}</td>
+          </tr>
+          <tr>
+            <td>{{TEST_H_3}}</td>
+            <td>{{TEST_M_3}}</td>
+            <td>{{TEST_T_3}}</td>
+            <td>{{TEST_W_3}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="section" id="risks">风险登记表</h3>
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th style="width:30%;">风险</th>
+            <th>概率</th>
+            <th>影响</th>
+            <th>应对方案</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{RISK_1_NAME}}</td>
+            <td class="num">{{RISK_1_PROB}}</td>
+            <td class="num">{{RISK_1_IMPACT}}</td>
+            <td>{{RISK_1_MITIGATION}}</td>
+          </tr>
+          <tr>
+            <td>{{RISK_2_NAME}}</td>
+            <td class="num">{{RISK_2_PROB}}</td>
+            <td class="num">{{RISK_2_IMPACT}}</td>
+            <td>{{RISK_2_MITIGATION}}</td>
+          </tr>
+          <tr>
+            <td>{{RISK_3_NAME}}</td>
+            <td class="num">{{RISK_3_PROB}}</td>
+            <td class="num">{{RISK_3_IMPACT}}</td>
+            <td>{{RISK_3_MITIGATION}}</td>
+          </tr>
+          <tr>
+            <td>{{RISK_4_NAME}}</td>
+            <td class="num">{{RISK_4_PROB}}</td>
+            <td class="num">{{RISK_4_IMPACT}}</td>
+            <td>{{RISK_4_MITIGATION}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         终章 · 行动清单
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="epilogue">
+      <h2 class="act"><span class="act-num">Epilogue · ⋆</span>终 章<span class="act-tag">明天就做的事</span></h2>
+
+      <h3 class="section">30 / 60 / 90 天 Roadmap</h3>
+      <div class="roadmap">
+        <div class="rm-col">
+          <h5>30</h5>
+          <p class="rm-sub">DAY · 验证核心假设</p>
+          <ul>
+            <li>{{ROADMAP_30_1}}</li>
+            <li>{{ROADMAP_30_2}}</li>
+            <li>{{ROADMAP_30_3}}</li>
+          </ul>
+        </div>
+        <div class="rm-col">
+          <h5>60</h5>
+          <p class="rm-sub">DAY · MVP 上线</p>
+          <ul>
+            <li>{{ROADMAP_60_1}}</li>
+            <li>{{ROADMAP_60_2}}</li>
+            <li>{{ROADMAP_60_3}}</li>
+          </ul>
+        </div>
+        <div class="rm-col">
+          <h5>90</h5>
+          <p class="rm-sub">DAY · 数据回检 + 迭代</p>
+          <ul>
+            <li>{{ROADMAP_90_1}}</li>
+            <li>{{ROADMAP_90_2}}</li>
+            <li>{{ROADMAP_90_3}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="section">第一周的 5 个动作</h3>
+      <ol>
+        <li><strong>{{WEEK1_ACT_1_NAME}}</strong> — {{WEEK1_ACT_1_DESC}}</li>
+        <li><strong>{{WEEK1_ACT_2_NAME}}</strong> — {{WEEK1_ACT_2_DESC}}</li>
+        <li><strong>{{WEEK1_ACT_3_NAME}}</strong> — {{WEEK1_ACT_3_DESC}}</li>
+        <li><strong>{{WEEK1_ACT_4_NAME}}</strong> — {{WEEK1_ACT_4_DESC}}</li>
+        <li><strong>{{WEEK1_ACT_5_NAME}}</strong> — {{WEEK1_ACT_5_DESC}}</li>
+      </ol>
+
+      <h3 class="section">资源 / 卡点 / 决策点</h3>
+      <div class="card-grid cols-3">
+        <div class="card cool">
+          <h5>NEED · 需要的资源</h5>
+          <ul>
+            <li>{{RESOURCE_1}}</li>
+            <li>{{RESOURCE_2}}</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h5>BLOCKER · 卡点</h5>
+          <ul>
+            <li>{{BLOCKER_1}}</li>
+            <li>{{BLOCKER_2}}</li>
+          </ul>
+        </div>
+        <div class="card calm">
+          <h5>DECISION · 需决策</h5>
+          <ul>
+            <li>{{DECISION_1}}</li>
+            <li>{{DECISION_2}}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="separator"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         附录 A · 理论调度日志
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="appendix-a">
+      <h2 class="act"><span class="act-num">Appendix · A</span>调 度 日 志<span class="act-tag">这份稿子怎么造出来的</span></h2>
+
+      <div class="appendix-block">
+        <h4>用了哪些理论 · 为什么</h4>
+        <ul>
+          <li>{{THEORY_USED_1}}</li>
+          <li>{{THEORY_USED_2}}</li>
+          <li>{{THEORY_USED_3}}</li>
+        </ul>
+      </div>
+
+      <div class="appendix-block">
+        <h4>没用哪些理论 · 为什么</h4>
+        <ul>
+          <li>{{THEORY_SKIPPED_1}}</li>
+          <li>{{THEORY_SKIPPED_2}}</li>
+        </ul>
+      </div>
+
+      <div class="appendix-block">
+        <h4>深度分布 · 哪几幕做深、哪几幕略过</h4>
+        <p>{{DEPTH_DISTRIBUTION_PARAGRAPH}}</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         附录 B · 可信度报告
+         ═══════════════════════════════════════════════════════════════ -->
+    <section id="appendix-b">
+      <h2 class="act"><span class="act-num">Appendix · B</span>可 信 度 报 告<span class="act-tag">哪些是事实、哪些是推测、哪些必须验</span></h2>
+
+      <div class="appendix-block">
+        <h4><span class="conf-tag conf-verified">VERIFIED</span>已验证的事实</h4>
+        <ul>
+          <li>{{CONF_VERIFIED_1}}</li>
+          <li>{{CONF_VERIFIED_2}}</li>
+        </ul>
+      </div>
+
+      <div class="appendix-block">
+        <h4><span class="conf-tag conf-inferred">INFERRED</span>合理推测（需进一步验证）</h4>
+        <ul>
+          <li>{{CONF_INFERRED_1}}</li>
+          <li>{{CONF_INFERRED_2}}</li>
+          <li>{{CONF_INFERRED_3}}</li>
+        </ul>
+      </div>
+
+      <div class="appendix-block">
+        <h4><span class="conf-tag conf-critical">CRITICAL</span>必须立即验证的关键假设</h4>
+        <ul>
+          <li>{{CONF_CRITICAL_1}}</li>
+          <li>{{CONF_CRITICAL_2}}</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="doc-foot">
+      <p class="foot-motto">让产品先成为可被推翻的设计</p>
+      <p>—— Product Designer · 双钻五幕 · 假设驱动 ——</p>
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>

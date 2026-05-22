@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 580" role="img" aria-label="北极星指标卡">
+  <!--
+    北极星指标卡 · north-star-card.svg  (v2 · iter-2 修复重合)
+    布局：中心北极星圆（中央）+ 四角输入指标 + 中心圆下方独立"指标定义"行（容纳长描述）。
+    占位符替换说明：
+    - {{METRIC_NAME}}        北极星指标短名（**强约束 ≤ 12 字**，如 "周活跃创作者数"）
+                             长描述请放 {{METRIC_DEFINITION}}，不要塞进 NAME
+    - {{METRIC_VALUE}}       当前数值（如 "1,240" 或 "TBD"），≤ 8 字
+    - {{METRIC_UNIT}}        单位（如 "/ 周"、"%"、"分钟"），≤ 6 字
+    - {{METRIC_DEFINITION}}  指标完整定义（**新增**，≤ 32 字，独占下方行宽度），
+                             例："月内付费 + 主动 Kill ≥ 1 个 idea 的用户数"
+    - {{INPUT_1_NAME}}       输入指标 1 名称（≤ 8 字）
+    - {{INPUT_1_FORMULA}}    输入指标 1 与北极星的关系（≤ 12 字，如 "↑ 拉新转化"）
+    - {{INPUT_2_*}} … {{INPUT_4_*}}   同上，共 4 个支撑指标
+    占位符未知时填 "待定义" 并在文本中加注释，切勿编造。
+
+    占位符字数硬约束：METRIC_NAME ≤ 12 | METRIC_DEFINITION ≤ 32 | INPUT_*_NAME ≤ 8 | INPUT_*_FORMULA ≤ 12
+  -->
+  <style>
+    .ns-bg { fill: #f9f5ec; }
+    .ns-frame { fill: none; stroke: #b8281f; stroke-width: 0.8; opacity: 0.3; }
+
+    /* 中央北极星 */
+    .ns-star-outer { fill: #fdf3f2; stroke: #b8281f; stroke-width: 1.6; }
+    .ns-star-inner { fill: none; stroke: #b8281f; stroke-width: 0.6; opacity: 0.4; }
+    .ns-star-icon { fill: #b8281f; opacity: 0.85; }
+    .ns-star-label {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 13px;
+      fill: #b8281f;
+      text-anchor: middle;
+      letter-spacing: 0.22em;
+    }
+    .ns-star-name {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 16px;
+      fill: #1a1a1a;
+      text-anchor: middle;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    .ns-star-value {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 32px;
+      fill: #b8281f;
+      text-anchor: middle;
+      letter-spacing: 0.04em;
+    }
+    .ns-star-unit {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 12px;
+      fill: #8a8a8a;
+      text-anchor: middle;
+      letter-spacing: 0.15em;
+    }
+
+    /* 新增：指标定义行（中心圆下方独立） */
+    .ns-def-row {
+      fill: rgba(184, 40, 31, 0.04);
+      stroke: #b8281f;
+      stroke-width: 0.4;
+      opacity: 0.9;
+    }
+    .ns-def-label {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 9.5px;
+      fill: #b8281f;
+      text-anchor: middle;
+      letter-spacing: 0.28em;
+    }
+    .ns-def-text {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 13px;
+      fill: #4a4a4a;
+      text-anchor: middle;
+      dominant-baseline: central;
+      letter-spacing: 0.08em;
+    }
+
+    /* 输入指标节点 */
+    .ns-input-node {
+      fill: #fcfaf4;
+      stroke: #b89b66;
+      stroke-width: 1.2;
+    }
+    .ns-input-name {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 14px;
+      fill: #1a1a1a;
+      text-anchor: middle;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .ns-input-formula {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 12px;
+      fill: #b89b66;
+      text-anchor: middle;
+      letter-spacing: 0.08em;
+    }
+    .ns-input-tag {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 10px;
+      fill: #b89b66;
+      text-anchor: middle;
+      letter-spacing: 0.2em;
+    }
+
+    /* 连线 */
+    .ns-line { stroke: #b89b66; stroke-width: 1; fill: none; opacity: 0.7; }
+    .ns-line-arrow { fill: #b89b66; opacity: 0.7; }
+
+    .ns-corner-mark {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 11.5px;
+      fill: #8a8a8a;
+      letter-spacing: 0.2em;
+    }
+  </style>
+
+  <rect class="ns-bg" x="0" y="0" width="800" height="580"/>
+  <rect class="ns-frame" x="20" y="20" width="760" height="540"/>
+
+  <!-- 四角标识 -->
+  <text class="ns-corner-mark" x="40" y="46">NORTH STAR METRIC</text>
+  <text class="ns-corner-mark" x="760" y="46" text-anchor="end">单 一 真 北</text>
+
+  <!-- ===== 连线（先画，置于节点下方） ===== -->
+  <line class="ns-line" x1="200" y1="170" x2="350" y2="240"/>
+  <polygon class="ns-line-arrow" points="350,240 340,236 342,246"/>
+  <line class="ns-line" x1="600" y1="170" x2="450" y2="240"/>
+  <polygon class="ns-line-arrow" points="450,240 460,236 458,246"/>
+  <line class="ns-line" x1="200" y1="380" x2="350" y2="310"/>
+  <polygon class="ns-line-arrow" points="350,310 340,314 342,304"/>
+  <line class="ns-line" x1="600" y1="380" x2="450" y2="310"/>
+  <polygon class="ns-line-arrow" points="450,310 460,314 458,304"/>
+
+  <!-- ===== 中央北极星（双圈 + 八角星图标 + 三层文字） ===== -->
+  <circle class="ns-star-outer" cx="400" cy="275" r="100"/>
+  <circle class="ns-star-inner" cx="400" cy="275" r="88"/>
+
+  <!-- 八角星装饰 -->
+  <g transform="translate(400, 210)">
+    <polygon class="ns-star-icon"
+      points="0,-12 3,-3 12,0 3,3 0,12 -3,3 -12,0 -3,-3"/>
+  </g>
+
+  <text class="ns-star-label" x="400" y="238">— 北 极 星 —</text>
+  <!-- 短名（≤ 12 字硬约束）-->
+  <text class="ns-star-name" x="400" y="266">{{METRIC_NAME}}</text>
+  <text class="ns-star-value" x="400" y="306">{{METRIC_VALUE}}</text>
+  <text class="ns-star-unit" x="400" y="328">{{METRIC_UNIT}}</text>
+
+  <!-- ===== 指标完整定义行（中心圆下方，独占宽度） ===== -->
+  <rect class="ns-def-row" x="100" y="430" width="600" height="46" rx="4"/>
+  <text class="ns-def-label" x="400" y="445">METRIC  DEFINITION  ·  指 标 完 整 定 义</text>
+  <text class="ns-def-text" x="400" y="465">{{METRIC_DEFINITION}}</text>
+
+  <!-- ===== 四个输入指标节点 ===== -->
+  <!-- 左上 -->
+  <g>
+    <rect class="ns-input-node" x="80" y="135" width="240" height="70" rx="4"/>
+    <text class="ns-input-tag" x="200" y="153">INPUT · 01</text>
+    <text class="ns-input-name" x="200" y="176">{{INPUT_1_NAME}}</text>
+    <text class="ns-input-formula" x="200" y="195">{{INPUT_1_FORMULA}}</text>
+  </g>
+
+  <!-- 右上 -->
+  <g>
+    <rect class="ns-input-node" x="480" y="135" width="240" height="70" rx="4"/>
+    <text class="ns-input-tag" x="600" y="153">INPUT · 02</text>
+    <text class="ns-input-name" x="600" y="176">{{INPUT_2_NAME}}</text>
+    <text class="ns-input-formula" x="600" y="195">{{INPUT_2_FORMULA}}</text>
+  </g>
+
+  <!-- 左下 -->
+  <g>
+    <rect class="ns-input-node" x="80" y="345" width="240" height="70" rx="4"/>
+    <text class="ns-input-tag" x="200" y="363">INPUT · 03</text>
+    <text class="ns-input-name" x="200" y="386">{{INPUT_3_NAME}}</text>
+    <text class="ns-input-formula" x="200" y="405">{{INPUT_3_FORMULA}}</text>
+  </g>
+
+  <!-- 右下 -->
+  <g>
+    <rect class="ns-input-node" x="480" y="345" width="240" height="70" rx="4"/>
+    <text class="ns-input-tag" x="600" y="363">INPUT · 04</text>
+    <text class="ns-input-name" x="600" y="386">{{INPUT_4_NAME}}</text>
+    <text class="ns-input-formula" x="600" y="405">{{INPUT_4_FORMULA}}</text>
+  </g>
+
+  <!-- 底部签名 -->
+  <text x="400" y="540" style="font-family:'Kaiti SC',serif;font-size:11px;fill:#8a8a8a;text-anchor:middle;letter-spacing:0.25em;">One Metric to Rule Them All · 4 inputs ↗ 1 north star</text>
+</svg>

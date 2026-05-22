@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 600" role="img" aria-label="用户旅程地图">
+  <!--
+    用户旅程地图 · journey-map.svg  (v2 · iter-2 修复重合)
+    布局：左栏行标签 0-110（独立、加底色），右侧单元格 120-1260（5 列每列 228px）。
+    占位符替换说明：
+    - {{STAGE_1_NAME}} … {{STAGE_5_NAME}}    每个阶段名称（建议 2-4 字，如"发现/比较/试用/购买/复访"）
+    - {{ACTION_1}} … {{ACTION_5}}             用户动作（**建议 ≤ 12 字**，超过会贴边）
+    - {{VOICE_1}} … {{VOICE_5}}               用户心声（一句口语化原声，**建议 ≤ 14 字**）
+    - {{PAIN_1}} … {{PAIN_5}}                 痛点（**建议 ≤ 12 字**）
+    - {{OPP_1}} … {{OPP_5}}                   机会点（**建议 ≤ 12 字**）
+    - {{EMO_Y_1}} … {{EMO_Y_5}}               情感曲线 Y 坐标，范围 380(最低/沮丧) ~ 230(最高/愉悦)，居中 305
+    - {{EMO_FACE_1}} … {{EMO_FACE_5}}         情感字符（推荐用中文单字："忧/疑/试/喜/恋"），避免 emoji 满天飞
+
+    占位符字数硬约束（违反会贴边）：ACTION ≤ 12 | VOICE ≤ 14 | PAIN ≤ 12 | OPP ≤ 12
+    使用 5 步是默认；若实际只有 4 步或扩展到 7 步，请同步调整 X 坐标分布。
+  -->
+  <style>
+    .jm-bg { fill: #f9f5ec; }
+    .jm-frame { fill: none; stroke: #b8281f; stroke-width: 1; opacity: 0.35; }
+    .jm-axis { stroke: #1a1a1a; stroke-width: 1; fill: none; opacity: 0.7; }
+    .jm-axis-soft { stroke: #1a1a1a; stroke-width: 1; opacity: 0.18; stroke-dasharray: 2 4; }
+    .jm-row-panel { fill: rgba(184, 40, 31, 0.04); stroke: none; }
+    .jm-stage-bar { fill: rgba(184, 40, 31, 0.06); stroke: #b8281f; stroke-width: 0.8; opacity: 0.7; }
+    .jm-stage-num {
+      font-family: "Crimson Pro", "Georgia", "Songti SC", serif;
+      font-size: 12px;
+      fill: #b8281f;
+      text-anchor: middle;
+      letter-spacing: 0.18em;
+    }
+    .jm-stage-name {
+      font-family: "Kaiti SC", "KaiTi", "楷体", serif;
+      font-size: 18px;
+      fill: #b8281f;
+      text-anchor: middle;
+      letter-spacing: 0.14em;
+    }
+    .jm-row-label {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 13px;
+      fill: #b8281f;
+      letter-spacing: 0.3em;
+      text-anchor: middle;
+      font-weight: 600;
+    }
+    .jm-row-label-en {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 9px;
+      fill: #8a8a8a;
+      letter-spacing: 0.25em;
+      text-anchor: middle;
+    }
+    .jm-action {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 13px;
+      fill: #1a1a1a;
+      text-anchor: middle;
+    }
+    .jm-voice {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 12.5px;
+      fill: #4a4a4a;
+      text-anchor: middle;
+      font-style: italic;
+    }
+    .jm-pain {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 12px;
+      fill: #b8281f;
+      text-anchor: middle;
+    }
+    .jm-opp {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 12px;
+      fill: #5b7a6a;
+      text-anchor: middle;
+    }
+    .jm-emo-line { fill: none; stroke: #b89b66; stroke-width: 1.4; opacity: 0.85; }
+    .jm-emo-node { fill: #f9f5ec; stroke: #b89b66; stroke-width: 1.4; }
+    .jm-emo-face {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 14px;
+      fill: #b89b66;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+  </style>
+
+  <rect class="jm-bg" x="0" y="0" width="1280" height="600"/>
+  <rect class="jm-frame" x="20" y="20" width="1240" height="560"/>
+
+  <!-- 左栏背景条（独立区，宽 90） -->
+  <rect class="jm-row-panel" x="20" y="60" width="90" height="480"/>
+  <line class="jm-axis-soft" x1="115" y1="60" x2="115" y2="540"/>
+
+  <!-- 行标签（独占左栏，中文+英文小注） -->
+  <text class="jm-row-label" x="65" y="105">阶 段</text>
+  <text class="jm-row-label-en" x="65" y="120">STAGE</text>
+
+  <text class="jm-row-label" x="65" y="175">动 作</text>
+  <text class="jm-row-label-en" x="65" y="190">ACTION</text>
+
+  <text class="jm-row-label" x="65" y="220">心 声</text>
+  <text class="jm-row-label-en" x="65" y="235">VOICE</text>
+
+  <text class="jm-row-label" x="65" y="305">情 感</text>
+  <text class="jm-row-label-en" x="65" y="320">EMOTION</text>
+
+  <text class="jm-row-label" x="65" y="430">痛 点</text>
+  <text class="jm-row-label-en" x="65" y="445">PAIN</text>
+
+  <text class="jm-row-label" x="65" y="500">机 会</text>
+  <text class="jm-row-label-en" x="65" y="515">OPP.</text>
+
+  <!-- 纵向虚线分隔（5 列等宽 228px，从 x=120 开始） -->
+  <line class="jm-axis-soft" x1="118" y1="60" x2="118" y2="540"/>
+  <line class="jm-axis-soft" x1="348" y1="60" x2="348" y2="540"/>
+  <line class="jm-axis-soft" x1="578" y1="60" x2="578" y2="540"/>
+  <line class="jm-axis-soft" x1="808" y1="60" x2="808" y2="540"/>
+  <line class="jm-axis-soft" x1="1038" y1="60" x2="1038" y2="540"/>
+  <line class="jm-axis-soft" x1="1258" y1="60" x2="1258" y2="540"/>
+
+  <!-- 阶段标题条（每列宽 200，居中 228 列） -->
+  <rect class="jm-stage-bar" x="135" y="80" width="200" height="48"/>
+  <text class="jm-stage-num" x="235" y="100">STAGE · 01</text>
+  <text class="jm-stage-name" x="235" y="120">{{STAGE_1_NAME}}</text>
+
+  <rect class="jm-stage-bar" x="365" y="80" width="200" height="48"/>
+  <text class="jm-stage-num" x="465" y="100">STAGE · 02</text>
+  <text class="jm-stage-name" x="465" y="120">{{STAGE_2_NAME}}</text>
+
+  <rect class="jm-stage-bar" x="595" y="80" width="200" height="48"/>
+  <text class="jm-stage-num" x="695" y="100">STAGE · 03</text>
+  <text class="jm-stage-name" x="695" y="120">{{STAGE_3_NAME}}</text>
+
+  <rect class="jm-stage-bar" x="825" y="80" width="200" height="48"/>
+  <text class="jm-stage-num" x="925" y="100">STAGE · 04</text>
+  <text class="jm-stage-name" x="925" y="120">{{STAGE_4_NAME}}</text>
+
+  <rect class="jm-stage-bar" x="1055" y="80" width="200" height="48"/>
+  <text class="jm-stage-num" x="1155" y="100">STAGE · 05</text>
+  <text class="jm-stage-name" x="1155" y="120">{{STAGE_5_NAME}}</text>
+
+  <!-- 动作行 -->
+  <text class="jm-action" x="235" y="178">{{ACTION_1}}</text>
+  <text class="jm-action" x="465" y="178">{{ACTION_2}}</text>
+  <text class="jm-action" x="695" y="178">{{ACTION_3}}</text>
+  <text class="jm-action" x="925" y="178">{{ACTION_4}}</text>
+  <text class="jm-action" x="1155" y="178">{{ACTION_5}}</text>
+
+  <!-- 心声行 -->
+  <text class="jm-voice" x="235" y="222">「{{VOICE_1}}」</text>
+  <text class="jm-voice" x="465" y="222">「{{VOICE_2}}」</text>
+  <text class="jm-voice" x="695" y="222">「{{VOICE_3}}」</text>
+  <text class="jm-voice" x="925" y="222">「{{VOICE_4}}」</text>
+  <text class="jm-voice" x="1155" y="222">「{{VOICE_5}}」</text>
+
+  <!-- 情感曲线区域：Y 轴 230(高) ~ 380(低)，中线 305 -->
+  <line class="jm-axis" x1="135" y1="305" x2="1255" y2="305"/>
+  <text class="jm-row-label-en" x="140" y="242" text-anchor="start">愉 悦</text>
+  <text class="jm-row-label-en" x="140" y="378" text-anchor="start">沮 丧</text>
+
+  <!-- 情感曲线（折线 + 5 节点）-->
+  <polyline class="jm-emo-line"
+    points="235,{{EMO_Y_1}} 465,{{EMO_Y_2}} 695,{{EMO_Y_3}} 925,{{EMO_Y_4}} 1155,{{EMO_Y_5}}"/>
+
+  <circle class="jm-emo-node" cx="235" cy="{{EMO_Y_1}}" r="14"/>
+  <text class="jm-emo-face" x="235" y="{{EMO_Y_1}}">{{EMO_FACE_1}}</text>
+
+  <circle class="jm-emo-node" cx="465" cy="{{EMO_Y_2}}" r="14"/>
+  <text class="jm-emo-face" x="465" y="{{EMO_Y_2}}">{{EMO_FACE_2}}</text>
+
+  <circle class="jm-emo-node" cx="695" cy="{{EMO_Y_3}}" r="14"/>
+  <text class="jm-emo-face" x="695" y="{{EMO_Y_3}}">{{EMO_FACE_3}}</text>
+
+  <circle class="jm-emo-node" cx="925" cy="{{EMO_Y_4}}" r="14"/>
+  <text class="jm-emo-face" x="925" y="{{EMO_Y_4}}">{{EMO_FACE_4}}</text>
+
+  <circle class="jm-emo-node" cx="1155" cy="{{EMO_Y_5}}" r="14"/>
+  <text class="jm-emo-face" x="1155" y="{{EMO_Y_5}}">{{EMO_FACE_5}}</text>
+
+  <!-- 痛点行 -->
+  <text class="jm-pain" x="235" y="432">{{PAIN_1}}</text>
+  <text class="jm-pain" x="465" y="432">{{PAIN_2}}</text>
+  <text class="jm-pain" x="695" y="432">{{PAIN_3}}</text>
+  <text class="jm-pain" x="925" y="432">{{PAIN_4}}</text>
+  <text class="jm-pain" x="1155" y="432">{{PAIN_5}}</text>
+
+  <!-- 机会点行 -->
+  <text class="jm-opp" x="235" y="502">{{OPP_1}}</text>
+  <text class="jm-opp" x="465" y="502">{{OPP_2}}</text>
+  <text class="jm-opp" x="695" y="502">{{OPP_3}}</text>
+  <text class="jm-opp" x="925" y="502">{{OPP_4}}</text>
+  <text class="jm-opp" x="1155" y="502">{{OPP_5}}</text>
+
+  <!-- 底部签名 -->
+  <text x="640" y="568" style="font-family:'Kaiti SC',serif;font-size:11px;fill:#8a8a8a;text-anchor:middle;letter-spacing:0.2em;">User Journey Map · 用户旅程地图</text>
+</svg>

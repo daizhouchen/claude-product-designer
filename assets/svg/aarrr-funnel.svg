@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 720" role="img" aria-label="AARRR 海盗指标漏斗">
+  <!--
+    AARRR 海盗指标漏斗 · aarrr-funnel.svg  (v2 · iter-2 修复重合)
+    布局：左侧漏斗（50-520），右侧空白区放转化率胶囊（540-790）和层级描述。
+    占位符替换说明：
+    - {{A1_VALUE}}                Acquisition 数值（如 "12,400 / 月"），**≤ 12 字**
+    - {{A1_DESC}}                 Acquisition 描述（如 "应用商店 + 内容引流"），**≤ 20 字**
+    - {{A2_VALUE}} {{A2_DESC}}    Activation
+    - {{A3_VALUE}} {{A3_DESC}}    Retention
+    - {{A4_VALUE}} {{A4_DESC}}    Revenue
+    - {{A5_VALUE}} {{A5_DESC}}    Referral
+    - {{R12}} {{R23}} {{R34}} {{R45}}   各层间转化率（含 % 号，如 "32%"）
+    数值未知时，请填 "TBD" 或一个明确标注的假设（如 "假设 30%"），切勿编造精确数字。
+  -->
+  <style>
+    .fn-bg { fill: #f9f5ec; }
+    .fn-stage-acq   { fill: #fdf3f2; stroke: #b8281f; stroke-width: 1; }
+    .fn-stage-act   { fill: #fbeeed; stroke: #b8281f; stroke-width: 1; }
+    .fn-stage-ret   { fill: #faeae8; stroke: #b8281f; stroke-width: 1; }
+    .fn-stage-rev   { fill: #f8e6e3; stroke: #b8281f; stroke-width: 1; }
+    .fn-stage-ref   { fill: #f6e2de; stroke: #b8281f; stroke-width: 1; }
+
+    .fn-stage-letter {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 28px;
+      fill: #b8281f;
+      letter-spacing: 0.05em;
+    }
+    .fn-stage-name {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 17px;
+      fill: #1a1a1a;
+      letter-spacing: 0.14em;
+    }
+    .fn-stage-cn {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 12px;
+      fill: #8a8a8a;
+      letter-spacing: 0.18em;
+    }
+    .fn-stage-value {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 22px;
+      fill: #1a1a1a;
+      text-anchor: end;
+      letter-spacing: 0.04em;
+    }
+
+    /* 右侧描述行（独立区） */
+    .fn-side-desc {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 12.5px;
+      fill: #4a4a4a;
+      letter-spacing: 0.04em;
+    }
+    .fn-side-desc-label {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 9px;
+      fill: #8a8a8a;
+      letter-spacing: 0.25em;
+    }
+    .fn-side-divider { stroke: #b89b66; stroke-width: 0.4; opacity: 0.3; }
+
+    /* 转化率胶囊（独立放右侧） */
+    .fn-conv-pill {
+      fill: #fcfaf4;
+      stroke: #b89b66;
+      stroke-width: 0.8;
+    }
+    .fn-conv-rate {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 14px;
+      fill: #b89b66;
+      text-anchor: middle;
+      dominant-baseline: central;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .fn-conv-tag {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 9.5px;
+      fill: #8a8a8a;
+      text-anchor: middle;
+      dominant-baseline: central;
+      letter-spacing: 0.2em;
+    }
+    /* 漏斗内层间细线（不放文字，纯视觉） */
+    .fn-conv-tick { stroke: #b89b66; stroke-width: 0.6; fill: none; opacity: 0.5; }
+
+    .fn-title {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 14px;
+      fill: #b8281f;
+      text-anchor: middle;
+      letter-spacing: 0.25em;
+    }
+  </style>
+
+  <rect class="fn-bg" x="0" y="0" width="820" height="720"/>
+  <text class="fn-title" x="280" y="36">AARRR · 海 盗 指 标</text>
+
+  <!-- ============ 左侧：漏斗（5 层，x 50-510） ============ -->
+
+  <!-- Layer 1: Acquisition -->
+  <polygon class="fn-stage-acq" points="60,60 510,60 480,140 90,140"/>
+  <text class="fn-stage-letter" x="78" y="100">A</text>
+  <text class="fn-stage-name" x="118" y="95">Acquisition</text>
+  <text class="fn-stage-cn" x="118" y="118">获 取</text>
+  <text class="fn-stage-value" x="465" y="105">{{A1_VALUE}}</text>
+
+  <!-- 转化 1 → 2 (漏斗中央只放细线) -->
+  <line class="fn-conv-tick" x1="265" y1="142" x2="265" y2="172"/>
+
+  <!-- Layer 2: Activation -->
+  <polygon class="fn-stage-act" points="90,170 480,170 450,250 120,250"/>
+  <text class="fn-stage-letter" x="108" y="210">A</text>
+  <text class="fn-stage-name" x="148" y="205">Activation</text>
+  <text class="fn-stage-cn" x="148" y="228">激 活</text>
+  <text class="fn-stage-value" x="435" y="215">{{A2_VALUE}}</text>
+
+  <line class="fn-conv-tick" x1="265" y1="252" x2="265" y2="282"/>
+
+  <!-- Layer 3: Retention -->
+  <polygon class="fn-stage-ret" points="120,280 450,280 420,360 150,360"/>
+  <text class="fn-stage-letter" x="138" y="320">R</text>
+  <text class="fn-stage-name" x="178" y="315">Retention</text>
+  <text class="fn-stage-cn" x="178" y="338">留 存</text>
+  <text class="fn-stage-value" x="405" y="325">{{A3_VALUE}}</text>
+
+  <line class="fn-conv-tick" x1="265" y1="362" x2="265" y2="392"/>
+
+  <!-- Layer 4: Revenue -->
+  <polygon class="fn-stage-rev" points="150,390 420,390 390,470 180,470"/>
+  <text class="fn-stage-letter" x="168" y="430">R</text>
+  <text class="fn-stage-name" x="208" y="425">Revenue</text>
+  <text class="fn-stage-cn" x="208" y="448">付 费</text>
+  <text class="fn-stage-value" x="375" y="435">{{A4_VALUE}}</text>
+
+  <line class="fn-conv-tick" x1="265" y1="472" x2="265" y2="502"/>
+
+  <!-- Layer 5: Referral（扩宽到 150-420 容下 R + 名称 + 值） -->
+  <polygon class="fn-stage-ref" points="150,500 420,500 390,580 180,580"/>
+  <text class="fn-stage-letter" x="168" y="540">R</text>
+  <text class="fn-stage-name" x="208" y="535">Referral</text>
+  <text class="fn-stage-cn" x="208" y="558">转 介</text>
+  <text class="fn-stage-value" x="378" y="545">{{A5_VALUE}}</text>
+
+  <!-- 底部箭头收口（独立、远离 Referral 层） -->
+  <polygon class="fn-stage-ref" points="240,600 330,600 285,640"/>
+  <text style="font-family:'Kaiti SC',serif;font-size:11px;fill:#b8281f;text-anchor:middle;letter-spacing:0.2em;" x="285" y="660">飞 轮 启 动</text>
+
+  <!-- ============ 右侧：转化率胶囊 + 层级描述（x 540-800） ============ -->
+  <text class="fn-side-desc-label" x="540" y="60">LAYER  ·  DESCRIPTION  ·  CONV</text>
+  <line class="fn-side-divider" x1="540" y1="68" x2="800" y2="68"/>
+
+  <!-- Acquisition 描述 -->
+  <text class="fn-side-desc" x="540" y="100">{{A1_DESC}}</text>
+
+  <!-- 转化 1→2 胶囊 -->
+  <rect class="fn-conv-pill" x="540" y="138" width="160" height="32" rx="16"/>
+  <text class="fn-conv-tag" x="568" y="154" text-anchor="start">conv ↓</text>
+  <text class="fn-conv-rate" x="668" y="154" text-anchor="end">{{R12}}</text>
+
+  <!-- Activation 描述 -->
+  <text class="fn-side-desc" x="540" y="215">{{A2_DESC}}</text>
+
+  <rect class="fn-conv-pill" x="540" y="248" width="160" height="32" rx="16"/>
+  <text class="fn-conv-tag" x="568" y="264" text-anchor="start">conv ↓</text>
+  <text class="fn-conv-rate" x="668" y="264" text-anchor="end">{{R23}}</text>
+
+  <!-- Retention 描述 -->
+  <text class="fn-side-desc" x="540" y="325">{{A3_DESC}}</text>
+
+  <rect class="fn-conv-pill" x="540" y="358" width="160" height="32" rx="16"/>
+  <text class="fn-conv-tag" x="568" y="374" text-anchor="start">conv ↓</text>
+  <text class="fn-conv-rate" x="668" y="374" text-anchor="end">{{R34}}</text>
+
+  <!-- Revenue 描述 -->
+  <text class="fn-side-desc" x="540" y="435">{{A4_DESC}}</text>
+
+  <rect class="fn-conv-pill" x="540" y="468" width="160" height="32" rx="16"/>
+  <text class="fn-conv-tag" x="568" y="484" text-anchor="start">conv ↓</text>
+  <text class="fn-conv-rate" x="668" y="484" text-anchor="end">{{R45}}</text>
+
+  <!-- Referral 描述 -->
+  <text class="fn-side-desc" x="540" y="545">{{A5_DESC}}</text>
+
+  <!-- 底部签名 -->
+  <text x="410" y="690" style="font-family:'Kaiti SC',serif;font-size:11px;fill:#8a8a8a;text-anchor:middle;letter-spacing:0.2em;">Pirate Metrics · Dave McClure</text>
+</svg>

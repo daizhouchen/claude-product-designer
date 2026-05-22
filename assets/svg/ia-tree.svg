@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" role="img" aria-label="信息架构树">
+  <!--
+    信息架构树 · ia-tree.svg
+    占位符替换说明：
+    - {{ROOT_NAME}}                 根节点（主页/产品名，建议 ≤ 8 字）
+    - {{L1_1_NAME}} … {{L1_4_NAME}} 一级菜单（4 个功能区，≤ 6 字）
+    - {{L2_*_NAME}}                 二级页面（功能页/列表页，≤ 8 字）
+    - {{L3_*_NAME}}                 三级页面（详情/弹窗，≤ 10 字）
+    节点形状语义：
+      · rect (圆角)  = 主页 / 一级菜单（容器型）
+      · ellipse      = 功能页 / 详情页（内容型）
+      · diamond      = 弹窗 / 流程节点（交互型）
+    如某一级实际不到 4 列，删除整个 <g class="ia-col"> 块即可。
+  -->
+  <style>
+    .ia-bg { fill: #f9f5ec; }
+    .ia-frame { fill: none; stroke: #b8281f; stroke-width: 1; opacity: 0.3; }
+    .ia-edge { stroke: #1a1a1a; stroke-width: 1; fill: none; opacity: 0.5; }
+    .ia-edge-key { stroke: #b8281f; stroke-width: 1.2; fill: none; opacity: 0.75; }
+
+    .ia-node-root {
+      fill: #fdf3f2;
+      stroke: #b8281f;
+      stroke-width: 1.6;
+    }
+    .ia-node-container {
+      fill: #fcfaf4;
+      stroke: #1a1a1a;
+      stroke-width: 1;
+    }
+    .ia-node-content {
+      fill: #fcfaf4;
+      stroke: #b89b66;
+      stroke-width: 1.2;
+    }
+    .ia-node-modal {
+      fill: #f0f3ef;
+      stroke: #5b7a6a;
+      stroke-width: 1.2;
+    }
+
+    .ia-label-root {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 16px;
+      fill: #b8281f;
+      text-anchor: middle;
+      dominant-baseline: central;
+      letter-spacing: 0.12em;
+    }
+    .ia-label-l1 {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 14px;
+      fill: #1a1a1a;
+      text-anchor: middle;
+      dominant-baseline: central;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .ia-label-l2 {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 12.5px;
+      fill: #1a1a1a;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+    .ia-label-l3 {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 11.5px;
+      fill: #4a4a4a;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    .ia-level-tag {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 10.5px;
+      fill: #8a8a8a;
+      letter-spacing: 0.2em;
+    }
+
+    .ia-legend-item {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 10.5px;
+      fill: #4a4a4a;
+      dominant-baseline: central;
+    }
+  </style>
+
+  <rect class="ia-bg" x="0" y="0" width="1200" height="500"/>
+  <rect class="ia-frame" x="20" y="20" width="1160" height="460"/>
+
+  <!-- 层级标签（左栏） -->
+  <text class="ia-level-tag" x="40" y="80">L0 · ROOT</text>
+  <text class="ia-level-tag" x="40" y="180">L1 · SECTION</text>
+  <text class="ia-level-tag" x="40" y="290">L2 · PAGE</text>
+  <text class="ia-level-tag" x="40" y="400">L3 · DETAIL / MODAL</text>
+
+  <!-- 根节点（居中） -->
+  <rect class="ia-node-root" x="540" y="58" width="120" height="44" rx="4"/>
+  <text class="ia-label-root" x="600" y="80">{{ROOT_NAME}}</text>
+
+  <!-- 根 → L1 4 条线 -->
+  <path class="ia-edge-key" d="M 600 102 Q 600 130 240 158"/>
+  <path class="ia-edge-key" d="M 600 102 Q 600 130 480 158"/>
+  <path class="ia-edge-key" d="M 600 102 Q 600 130 720 158"/>
+  <path class="ia-edge-key" d="M 600 102 Q 600 130 960 158"/>
+
+  <!-- ===== 列 1 ===== -->
+  <g class="ia-col">
+    <!-- L1 -->
+    <rect class="ia-node-container" x="170" y="158" width="140" height="44" rx="3"/>
+    <text class="ia-label-l1" x="240" y="180">{{L1_1_NAME}}</text>
+    <!-- L1 → L2 -->
+    <line class="ia-edge" x1="240" y1="202" x2="200" y2="268"/>
+    <line class="ia-edge" x1="240" y1="202" x2="280" y2="268"/>
+    <!-- L2 (2 个) -->
+    <ellipse class="ia-node-content" cx="200" cy="290" rx="58" ry="22"/>
+    <text class="ia-label-l2" x="200" y="290">{{L2_1A_NAME}}</text>
+    <ellipse class="ia-node-content" cx="280" cy="290" rx="58" ry="22"/>
+    <text class="ia-label-l2" x="280" y="290">{{L2_1B_NAME}}</text>
+    <!-- L2 → L3 -->
+    <line class="ia-edge" x1="200" y1="312" x2="180" y2="380"/>
+    <line class="ia-edge" x1="280" y1="312" x2="300" y2="380"/>
+    <!-- L3 (2 个，菱形 = 弹窗) -->
+    <polygon class="ia-node-modal" points="180,380 230,400 180,420 130,400"/>
+    <text class="ia-label-l3" x="180" y="400">{{L3_1A_NAME}}</text>
+    <polygon class="ia-node-modal" points="300,380 350,400 300,420 250,400"/>
+    <text class="ia-label-l3" x="300" y="400">{{L3_1B_NAME}}</text>
+  </g>
+
+  <!-- ===== 列 2 ===== -->
+  <g class="ia-col">
+    <rect class="ia-node-container" x="410" y="158" width="140" height="44" rx="3"/>
+    <text class="ia-label-l1" x="480" y="180">{{L1_2_NAME}}</text>
+    <line class="ia-edge" x1="480" y1="202" x2="440" y2="268"/>
+    <line class="ia-edge" x1="480" y1="202" x2="520" y2="268"/>
+    <ellipse class="ia-node-content" cx="440" cy="290" rx="58" ry="22"/>
+    <text class="ia-label-l2" x="440" y="290">{{L2_2A_NAME}}</text>
+    <ellipse class="ia-node-content" cx="520" cy="290" rx="58" ry="22"/>
+    <text class="ia-label-l2" x="520" y="290">{{L2_2B_NAME}}</text>
+    <line class="ia-edge" x1="440" y1="312" x2="420" y2="380"/>
+    <line class="ia-edge" x1="520" y1="312" x2="540" y2="380"/>
+    <ellipse class="ia-node-content" cx="420" cy="400" rx="56" ry="20"/>
+    <text class="ia-label-l3" x="420" y="400">{{L3_2A_NAME}}</text>
+    <ellipse class="ia-node-content" cx="540" cy="400" rx="56" ry="20"/>
+    <text class="ia-label-l3" x="540" y="400">{{L3_2B_NAME}}</text>
+  </g>
+
+  <!-- ===== 列 3 ===== -->
+  <g class="ia-col">
+    <rect class="ia-node-container" x="650" y="158" width="140" height="44" rx="3"/>
+    <text class="ia-label-l1" x="720" y="180">{{L1_3_NAME}}</text>
+    <line class="ia-edge" x1="720" y1="202" x2="680" y2="268"/>
+    <line class="ia-edge" x1="720" y1="202" x2="760" y2="268"/>
+    <ellipse class="ia-node-content" cx="680" cy="290" rx="58" ry="22"/>
+    <text class="ia-label-l2" x="680" y="290">{{L2_3A_NAME}}</text>
+    <ellipse class="ia-node-content" cx="760" cy="290" rx="58" ry="22"/>
+    <text class="ia-label-l2" x="760" y="290">{{L2_3B_NAME}}</text>
+    <line class="ia-edge" x1="680" y1="312" x2="660" y2="380"/>
+    <line class="ia-edge" x1="760" y1="312" x2="780" y2="380"/>
+    <ellipse class="ia-node-content" cx="660" cy="400" rx="56" ry="20"/>
+    <text class="ia-label-l3" x="660" y="400">{{L3_3A_NAME}}</text>
+    <polygon class="ia-node-modal" points="780,380 830,400 780,420 730,400"/>
+    <text class="ia-label-l3" x="780" y="400">{{L3_3B_NAME}}</text>
+  </g>
+
+  <!-- ===== 列 4 ===== -->
+  <g class="ia-col">
+    <rect class="ia-node-container" x="890" y="158" width="140" height="44" rx="3"/>
+    <text class="ia-label-l1" x="960" y="180">{{L1_4_NAME}}</text>
+    <line class="ia-edge" x1="960" y1="202" x2="920" y2="268"/>
+    <line class="ia-edge" x1="960" y1="202" x2="1000" y2="268"/>
+    <ellipse class="ia-node-content" cx="920" cy="290" rx="58" ry="22"/>
+    <text class="ia-label-l2" x="920" y="290">{{L2_4A_NAME}}</text>
+    <ellipse class="ia-node-content" cx="1000" cy="290" rx="58" ry="22"/>
+    <text class="ia-label-l2" x="1000" y="290">{{L2_4B_NAME}}</text>
+    <line class="ia-edge" x1="920" y1="312" x2="900" y2="380"/>
+    <line class="ia-edge" x1="1000" y1="312" x2="1020" y2="380"/>
+    <ellipse class="ia-node-content" cx="900" cy="400" rx="56" ry="20"/>
+    <text class="ia-label-l3" x="900" y="400">{{L3_4A_NAME}}</text>
+    <ellipse class="ia-node-content" cx="1020" cy="400" rx="56" ry="20"/>
+    <text class="ia-label-l3" x="1020" y="400">{{L3_4B_NAME}}</text>
+  </g>
+
+  <!-- 图例 -->
+  <g transform="translate(1060, 60)">
+    <rect class="ia-node-root" x="0" y="0" width="20" height="14" rx="2"/>
+    <text class="ia-legend-item" x="28" y="7">根节点</text>
+    <rect class="ia-node-container" x="0" y="22" width="20" height="14" rx="2"/>
+    <text class="ia-legend-item" x="28" y="29">容器页</text>
+    <ellipse class="ia-node-content" cx="10" cy="50" rx="10" ry="7"/>
+    <text class="ia-legend-item" x="28" y="50">内容页</text>
+    <polygon class="ia-node-modal" points="10,66 20,74 10,82 0,74"/>
+    <text class="ia-legend-item" x="28" y="74">弹窗 / 流程</text>
+  </g>
+</svg>

@@ -1,0 +1,324 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-label="用户核心流程图">
+  <!--
+    用户核心流程图 · user-flow-diagram.svg
+    用途：展示一个核心 user flow 的完整路径（含决策分支与多终点）。
+    形状语义（流程图通用约定，请勿混用）：
+      · 圆形 / 胶囊形（绿）  = 起点（用户触发的事件，如"打开 App"、"扫码"）
+      · 圆角矩形（米黄底）   = 步骤动作（系统/用户做的事，如"输入手机号"、"AI 生成结果"）
+      · 菱形（淡金底）       = 决策判断（系统/用户判断，必然带是/否分叉）
+      · 圆形（朱砂/灰/绛红） = 终点
+          - 朱砂 = 成功态（用户完成目标）
+          - 灰   = 失败态（用户主动放弃 / 系统拒绝）
+          - 绛红 = 中断态（外部异常 / 等待中）
+
+    占位符替换说明：
+    - {{FLOW_TITLE}}          流程图主标题（建议 ≤ 16 字，如"新用户首次完成下单"）
+    - {{ACTOR}}               主角色（如"新用户"、"注册商家"），影响 Persona 标识
+    - {{START_LABEL}}         起点动作（≤ 8 字）
+    - {{STEP_1}} … {{STEP_5}} 步骤动作（≤ 10 字）
+    - {{DECISION_1}} / {{DECISION_2}}  决策问题（一句疑问句，≤ 12 字，结尾不带"？"也可）
+    - {{D1_YES}} {{D1_NO}} {{D2_YES}} {{D2_NO}}   分叉边标签（推荐用"是/否"或具体动词，≤ 4 字）
+    - {{END_SUCCESS}}         成功态终点文字（≤ 8 字，如"下单完成"）
+    - {{END_FAIL}}            失败态终点文字（≤ 8 字，如"放弃流程"）
+    - {{END_INTERRUPT}}       中断态终点文字（≤ 8 字，如"等待审核"、"超时"）
+
+    若实际只需 1 个决策菱形 / 2 个终点：
+      - 删除整个 <g class="flow-decision-2"> 块
+      - 删除 <g class="flow-end-interrupt"> 块
+      - 同步删除指向它们的 path
+    箭头统一使用 marker-end="url(#flow-arrow)"；曲线 path 已注释好语义，移动节点时记得同步起止坐标。
+  -->
+  <defs>
+    <marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3A2E26"/>
+    </marker>
+    <marker id="flow-arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b8281f"/>
+    </marker>
+  </defs>
+
+  <style>
+    .uf-bg { fill: #f9f5ec; }
+    .uf-frame { fill: none; stroke: #b8281f; stroke-width: 1; opacity: 0.35; }
+
+    /* 起点 */
+    .uf-start {
+      fill: #eaf0e7;
+      stroke: #5b7a6a;
+      stroke-width: 1.6;
+    }
+    .uf-start-text {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 13px;
+      fill: #5b7a6a;
+      text-anchor: middle;
+      dominant-baseline: central;
+      letter-spacing: 0.1em;
+    }
+
+    /* 步骤 */
+    .uf-step {
+      fill: #fcfaf4;
+      stroke: #3A2E26;
+      stroke-width: 1.1;
+    }
+    .uf-step-text {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 12.5px;
+      fill: #3A2E26;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    /* 决策 */
+    .uf-decision {
+      fill: #faf3e4;
+      stroke: #b8281f;
+      stroke-width: 1.3;
+    }
+    .uf-decision-text {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 12px;
+      fill: #b8281f;
+      text-anchor: middle;
+      dominant-baseline: central;
+      letter-spacing: 0.06em;
+    }
+
+    /* 终点 */
+    .uf-end-success {
+      fill: #fdecea;
+      stroke: #b8281f;
+      stroke-width: 1.6;
+    }
+    .uf-end-fail {
+      fill: #eeeeea;
+      stroke: #8a8a8a;
+      stroke-width: 1.4;
+      stroke-dasharray: 4 3;
+    }
+    .uf-end-interrupt {
+      fill: #f5e8e3;
+      stroke: #8b3a3a;
+      stroke-width: 1.4;
+    }
+    .uf-end-text {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 13px;
+      text-anchor: middle;
+      dominant-baseline: central;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+    .uf-end-text-success { fill: #b8281f; }
+    .uf-end-text-fail { fill: #4a4a4a; }
+    .uf-end-text-interrupt { fill: #8b3a3a; }
+
+    /* 连线 */
+    .uf-edge { fill: none; stroke: #3A2E26; stroke-width: 1.1; opacity: 0.8; }
+    .uf-edge-red { fill: none; stroke: #b8281f; stroke-width: 1.1; opacity: 0.8; stroke-dasharray: 5 3; }
+    .uf-edge-label {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 11px;
+      fill: #3A2E26;
+      text-anchor: middle;
+      letter-spacing: 0.1em;
+    }
+    .uf-edge-label-red {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 11px;
+      fill: #b8281f;
+      text-anchor: middle;
+      letter-spacing: 0.1em;
+    }
+
+    /* 标题 */
+    .uf-title {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 20px;
+      fill: #3A2E26;
+      letter-spacing: 0.2em;
+    }
+    .uf-subtitle {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 11px;
+      fill: #8a8a8a;
+      letter-spacing: 0.3em;
+    }
+    .uf-actor-tag {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 12px;
+      fill: #5b7a6a;
+      letter-spacing: 0.15em;
+    }
+    .uf-row-label {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 10.5px;
+      fill: #8a8a8a;
+      letter-spacing: 0.25em;
+    }
+
+    /* 图例 */
+    .uf-legend-box { fill: #fcfaf4; stroke: #b8281f; stroke-width: 0.6; opacity: 0.7; }
+    .uf-legend-title {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 11.5px;
+      fill: #b8281f;
+      letter-spacing: 0.15em;
+    }
+    .uf-legend-item {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 10.5px;
+      fill: #4a4a4a;
+      dominant-baseline: central;
+    }
+  </style>
+
+  <rect class="uf-bg" x="0" y="0" width="1200" height="700"/>
+  <rect class="uf-frame" x="20" y="20" width="1160" height="660"/>
+
+  <!-- 标题区 -->
+  <text class="uf-title" x="40" y="58">{{FLOW_TITLE}}</text>
+  <text class="uf-subtitle" x="40" y="78">USER  FLOW  DIAGRAM</text>
+  <text class="uf-actor-tag" x="40" y="98">主角色 · {{ACTOR}}</text>
+  <line class="uf-edge" x1="40" y1="112" x2="900" y2="112" style="opacity:0.15;"/>
+
+  <!-- 左侧泳道行标签（参考用，描述节点类型从上至下流转） -->
+  <text class="uf-row-label" x="40" y="172">起 点</text>
+  <text class="uf-row-label" x="40" y="276">步 骤</text>
+  <text class="uf-row-label" x="40" y="292">&amp; 决 策</text>
+  <text class="uf-row-label" x="40" y="572">终 点</text>
+
+  <!-- ================ 起点（圆形，左上） ================ -->
+  <g class="flow-start">
+    <ellipse class="uf-start" cx="160" cy="180" rx="60" ry="30"/>
+    <text class="uf-start-text" x="160" y="180">{{START_LABEL}}</text>
+  </g>
+
+  <!-- 起点 → 步骤 1 -->
+  <path class="uf-edge" d="M 160 210 L 160 252" marker-end="url(#flow-arrow)"/>
+
+  <!-- ================ 步骤 1（左中） ================ -->
+  <g class="flow-step-1">
+    <rect class="uf-step" x="100" y="252" width="120" height="50" rx="6"/>
+    <text class="uf-step-text" x="160" y="277">{{STEP_1}}</text>
+  </g>
+
+  <!-- 步骤 1 → 决策 1 -->
+  <path class="uf-edge" d="M 220 277 L 322 322" marker-end="url(#flow-arrow)"/>
+
+  <!-- ================ 决策 1（菱形，中上） ================ -->
+  <g class="flow-decision-1">
+    <polygon class="uf-decision" points="400,260 480,322 400,384 320,322"/>
+    <text class="uf-decision-text" x="400" y="316">{{DECISION_1}}</text>
+    <text class="uf-decision-text" x="400" y="334" style="font-size:11px;">？</text>
+  </g>
+
+  <!-- 决策 1 → 步骤 2（是） -->
+  <path class="uf-edge" d="M 480 322 L 540 322" marker-end="url(#flow-arrow)"/>
+  <text class="uf-edge-label" x="510" y="316">{{D1_YES}}</text>
+
+  <!-- 决策 1 → 失败终点（否） -->
+  <path class="uf-edge" d="M 400 384 L 400 440 Q 400 480 360 510" marker-end="url(#flow-arrow)"/>
+  <text class="uf-edge-label" x="378" y="422">{{D1_NO}}</text>
+
+  <!-- ================ 步骤 2（中） ================ -->
+  <g class="flow-step-2">
+    <rect class="uf-step" x="540" y="297" width="120" height="50" rx="6"/>
+    <text class="uf-step-text" x="600" y="322">{{STEP_2}}</text>
+  </g>
+
+  <!-- 步骤 2 → 步骤 3 -->
+  <path class="uf-edge" d="M 660 322 L 720 322" marker-end="url(#flow-arrow)"/>
+  <text class="uf-edge-label" x="690" y="316">下一步</text>
+
+  <!-- ================ 步骤 3（中右） ================ -->
+  <g class="flow-step-3">
+    <rect class="uf-step" x="720" y="297" width="120" height="50" rx="6"/>
+    <text class="uf-step-text" x="780" y="322">{{STEP_3}}</text>
+  </g>
+
+  <!-- 步骤 3 → 决策 2 -->
+  <path class="uf-edge" d="M 840 322 L 922 322" marker-end="url(#flow-arrow)"/>
+
+  <!-- ================ 决策 2（菱形，右上） ================ -->
+  <g class="flow-decision-2">
+    <polygon class="uf-decision" points="1000,260 1080,322 1000,384 920,322"/>
+    <text class="uf-decision-text" x="1000" y="316">{{DECISION_2}}</text>
+    <text class="uf-decision-text" x="1000" y="334" style="font-size:11px;">？</text>
+  </g>
+
+  <!-- 决策 2 → 步骤 4（是，向下进入步骤 4） -->
+  <path class="uf-edge" d="M 1000 384 L 1000 430 L 880 430 L 880 458" marker-end="url(#flow-arrow)"/>
+  <text class="uf-edge-label" x="1018" y="412">{{D2_YES}}</text>
+
+  <!-- 决策 2 → 中断终点（否，右拐到底部右下） -->
+  <path class="uf-edge-red" d="M 1080 322 L 1100 322 L 1100 540" marker-end="url(#flow-arrow-red)"/>
+  <text class="uf-edge-label-red" x="1130" y="430">{{D2_NO}}</text>
+
+  <!-- ================ 步骤 4（中下） ================ -->
+  <g class="flow-step-4">
+    <rect class="uf-step" x="820" y="458" width="120" height="50" rx="6"/>
+    <text class="uf-step-text" x="880" y="483">{{STEP_4}}</text>
+  </g>
+
+  <!-- 步骤 4 → 步骤 5 -->
+  <path class="uf-edge" d="M 820 483 L 740 483" marker-end="url(#flow-arrow)"/>
+
+  <!-- ================ 步骤 5（左中下） ================ -->
+  <g class="flow-step-5">
+    <rect class="uf-step" x="620" y="458" width="120" height="50" rx="6"/>
+    <text class="uf-step-text" x="680" y="483">{{STEP_5}}</text>
+  </g>
+
+  <!-- 步骤 5 → 成功终点 -->
+  <path class="uf-edge" d="M 620 483 L 540 540" marker-end="url(#flow-arrow)"/>
+
+  <!-- ================ 终点 1：成功（左下，朱砂） ================ -->
+  <g class="flow-end-success">
+    <ellipse class="uf-end-success" cx="480" cy="560" rx="68" ry="32"/>
+    <text class="uf-end-text uf-end-text-success" x="480" y="556">{{END_SUCCESS}}</text>
+    <text class="uf-end-text uf-end-text-success" x="480" y="572" style="font-size:10px;font-weight:400;letter-spacing:0.3em;">SUCCESS</text>
+  </g>
+
+  <!-- ================ 终点 2：失败（中下偏左，灰） ================ -->
+  <g class="flow-end-fail">
+    <ellipse class="uf-end-fail" cx="300" cy="560" rx="68" ry="32"/>
+    <text class="uf-end-text uf-end-text-fail" x="300" y="556">{{END_FAIL}}</text>
+    <text class="uf-end-text uf-end-text-fail" x="300" y="572" style="font-size:10px;font-weight:400;letter-spacing:0.3em;">DROP-OFF</text>
+  </g>
+
+  <!-- ================ 终点 3：中断（右下，绛红） ================ -->
+  <g class="flow-end-interrupt">
+    <ellipse class="uf-end-interrupt" cx="1040" cy="560" rx="68" ry="32"/>
+    <text class="uf-end-text uf-end-text-interrupt" x="1040" y="556">{{END_INTERRUPT}}</text>
+    <text class="uf-end-text uf-end-text-interrupt" x="1040" y="572" style="font-size:10px;font-weight:400;letter-spacing:0.3em;">INTERRUPT</text>
+  </g>
+
+  <!-- ================ 图例 ================ -->
+  <g transform="translate(700, 56)">
+    <rect class="uf-legend-box" x="0" y="0" width="460" height="48"/>
+    <text class="uf-legend-title" x="14" y="18">LEGEND  ·  形 状 语 义</text>
+
+    <ellipse class="uf-start" cx="22" cy="36" rx="12" ry="6"/>
+    <text class="uf-legend-item" x="40" y="36">起点</text>
+
+    <rect class="uf-step" x="80" y="30" width="22" height="12" rx="2"/>
+    <text class="uf-legend-item" x="108" y="36">步骤</text>
+
+    <polygon class="uf-decision" points="160,30 174,36 160,42 146,36"/>
+    <text class="uf-legend-item" x="180" y="36">决策</text>
+
+    <circle class="uf-end-success" cx="232" cy="36" r="7"/>
+    <text class="uf-legend-item" x="244" y="36">成功</text>
+
+    <circle class="uf-end-fail" cx="298" cy="36" r="7"/>
+    <text class="uf-legend-item" x="310" y="36">失败</text>
+
+    <circle class="uf-end-interrupt" cx="370" cy="36" r="7"/>
+    <text class="uf-legend-item" x="382" y="36">中断</text>
+  </g>
+
+  <!-- 底部签名 -->
+  <text x="600" y="660" style="font-family:'Kaiti SC',serif;font-size:11px;fill:#8a8a8a;text-anchor:middle;letter-spacing:0.2em;">User Flow Diagram · 用户核心流程图</text>
+</svg>

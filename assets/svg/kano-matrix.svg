@@ -1,0 +1,265 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" role="img" aria-label="Kano 模型矩阵">
+  <!--
+    Kano 模型矩阵 · kano-matrix.svg  (v2 · iter-2 修复重合)
+    五条曲线已固化（基本/期望/兴奋/无差异/反向），符合 Noriaki Kano 原始模型。
+    布局：左侧 80-680 是曲线区，右侧 720-1080 是独立功能列表区（引线相连），避免锚点文字撞曲线标签。
+
+    占位符替换说明（功能锚点 6 个，每个有 X/Y 锚位 + LABEL 名称 + CLASS 类别）：
+    - {{F1_X}} {{F1_Y}} {{F1_LABEL}} {{F1_CLASS}}
+        X: 130-650 之间（曲线区），Y: 80-460 之间
+        LABEL: 功能名称，**建议 ≤ 8 字**（长字段在右侧列表完整展示，曲线上的锚点圆只用编号）
+        CLASS: kano-must / kano-perf / kano-delight / kano-indiff / kano-reverse
+    - {{F1_NUM}}                      功能编号（1-6，必填，曲线锚点上方显示，如 "①" 或 "F1"）
+    - {{F1_LIST_DESC}}                右侧列表的完整描述（≤ 14 字），如 "5 步问答完成首单"
+    - {{F2_*}} … {{F6_*}}             同上，最多 6 个待分类功能锚点
+
+    占位符建议字数：F*_LABEL ≤ 8 字 | F*_LIST_DESC ≤ 14 字 | F*_NUM ≤ 2 字
+    若功能少于 6 个，删除多余的 <g class="kano-feature"> 块和对应 <g class="kano-list-item">。
+  -->
+  <style>
+    .k-bg { fill: #f9f5ec; }
+    .k-axis { stroke: #1a1a1a; stroke-width: 1.2; fill: none; }
+    .k-axis-arrow { fill: #1a1a1a; }
+    .k-quadrant { stroke: #1a1a1a; stroke-width: 0.6; opacity: 0.12; }
+    .k-axis-label {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 15px;
+      fill: #1a1a1a;
+      letter-spacing: 0.1em;
+    }
+    .k-axis-cap {
+      font-family: "Songti SC", serif;
+      font-size: 11.5px;
+      fill: #8a8a8a;
+      letter-spacing: 0.12em;
+    }
+    .k-curve-must    { fill: none; stroke: #b8281f; stroke-width: 1.6; }
+    .k-curve-perf    { fill: none; stroke: #1a1a1a; stroke-width: 1.4; }
+    .k-curve-delight { fill: none; stroke: #b89b66; stroke-width: 1.6; }
+    .k-curve-indiff  { fill: none; stroke: #8a8a8a; stroke-width: 1; stroke-dasharray: 4 3; }
+    .k-curve-reverse { fill: none; stroke: #5b7a6a; stroke-width: 1.2; stroke-dasharray: 6 3; }
+
+    .k-curve-label {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+    }
+    .k-label-must    { fill: #b8281f; }
+    .k-label-perf    { fill: #1a1a1a; }
+    .k-label-delight { fill: #b89b66; }
+    .k-label-indiff  { fill: #8a8a8a; }
+    .k-label-reverse { fill: #5b7a6a; }
+
+    /* 功能锚点（曲线上只放小圆 + 编号，文字描述全部移到右侧列表区） */
+    .kano-feature .k-anchor {
+      fill: #f9f5ec;
+      stroke-width: 1.6;
+    }
+    .kano-must    .k-anchor { stroke: #b8281f; }
+    .kano-perf    .k-anchor { stroke: #1a1a1a; }
+    .kano-delight .k-anchor { stroke: #b89b66; }
+    .kano-indiff  .k-anchor { stroke: #8a8a8a; }
+    .kano-reverse .k-anchor { stroke: #5b7a6a; }
+
+    .kano-feature .k-anchor-num {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 10.5px;
+      fill: #1a1a1a;
+      text-anchor: middle;
+      dominant-baseline: central;
+      font-weight: 600;
+    }
+
+    /* 引线（从曲线锚点 → 右侧列表行） */
+    .k-leader { stroke: #8a8a8a; stroke-width: 0.6; fill: none; opacity: 0.5; stroke-dasharray: 2 2; }
+
+    /* 右侧功能列表区 */
+    .k-list-panel { fill: #fcfaf4; stroke: #b8281f; stroke-width: 0.6; opacity: 0.85; }
+    .k-list-title {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 13px;
+      fill: #b8281f;
+      letter-spacing: 0.22em;
+    }
+    .k-list-num {
+      font-family: "Crimson Pro", "Georgia", serif;
+      font-size: 11px;
+      fill: #1a1a1a;
+      text-anchor: middle;
+      dominant-baseline: central;
+      font-weight: 600;
+    }
+    .k-list-name {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 12.5px;
+      fill: #1a1a1a;
+      dominant-baseline: central;
+      font-weight: 600;
+    }
+    .k-list-desc {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 11px;
+      fill: #8a8a8a;
+      dominant-baseline: central;
+    }
+    .k-list-row-line { stroke: #b89b66; stroke-width: 0.4; opacity: 0.3; }
+
+    /* 图例 */
+    .k-legend-box { fill: #fcfaf4; stroke: #b8281f; stroke-width: 0.6; opacity: 0.7; }
+    .k-legend-title {
+      font-family: "Kaiti SC", "KaiTi", serif;
+      font-size: 11.5px;
+      fill: #b8281f;
+      letter-spacing: 0.18em;
+    }
+    .k-legend-item {
+      font-family: "Songti SC", "宋体", serif;
+      font-size: 10.5px;
+      fill: #4a4a4a;
+    }
+  </style>
+
+  <rect class="k-bg" x="0" y="0" width="1100" height="600"/>
+
+  <!-- ============ 左侧：曲线区（80 - 680） ============ -->
+
+  <!-- 四象限分割 -->
+  <line class="k-quadrant" x1="120" y1="275" x2="680" y2="275"/>
+  <line class="k-quadrant" x1="400" y1="80" x2="400" y2="460"/>
+
+  <!-- 坐标轴 -->
+  <line class="k-axis" x1="120" y1="460" x2="680" y2="460"/>
+  <line class="k-axis" x1="120" y1="80" x2="120" y2="460"/>
+  <polygon class="k-axis-arrow" points="680,460 670,456 670,464"/>
+  <polygon class="k-axis-arrow" points="120,80 116,90 124,90"/>
+
+  <!-- 轴标签 -->
+  <text class="k-axis-label" x="400" y="490" text-anchor="middle">功 能 实 现 度  →</text>
+  <text class="k-axis-label" x="60" y="275" text-anchor="middle" transform="rotate(-90 60 275)">用 户 满 意 度  →</text>
+
+  <text class="k-axis-cap" x="120" y="478" text-anchor="middle">未实现</text>
+  <text class="k-axis-cap" x="680" y="478" text-anchor="middle">充分实现</text>
+  <text class="k-axis-cap" x="105" y="84" text-anchor="end">非常满意</text>
+  <text class="k-axis-cap" x="105" y="458" text-anchor="end">非常不满</text>
+  <text class="k-axis-cap" x="115" y="278" text-anchor="end" style="font-size:10.5px;">中性</text>
+
+  <!-- 五条曲线（缩放到 130-650 区间） -->
+  <!-- 基本型 must-be：左下急升，曲线标签贴在末端右侧（x=475，y=265，已远离常用锚点带） -->
+  <path class="k-curve-must"
+    d="M 130 455 Q 210 450 275 410 Q 340 350 400 305 Q 490 285 650 278"/>
+  <text class="k-curve-label k-label-must" x="475" y="265" transform="rotate(-2 475 265)">基本型 · Must-Be</text>
+
+  <!-- 期望型 performance：标签放在曲线区外的顶部留白（y=68，远离所有锚点） -->
+  <line class="k-curve-perf" x1="130" y1="445" x2="650" y2="95"/>
+  <text class="k-curve-label k-label-perf" x="540" y="68" text-anchor="middle">期望型 · Performance ↗</text>
+
+  <!-- 兴奋型 delight：标签放在最左侧曲线起点上方（远离常用锚点） -->
+  <path class="k-curve-delight"
+    d="M 130 280 Q 270 275 340 268 Q 430 250 510 200 Q 580 130 650 90"/>
+  <text class="k-curve-label k-label-delight" x="155" y="263">兴奋型 · Delight</text>
+
+  <!-- 无差异 indifferent：标签放在曲线下方右侧（远离左下锚点带） -->
+  <line class="k-curve-indiff" x1="130" y1="275" x2="650" y2="275"/>
+  <text class="k-curve-label k-label-indiff" x="490" y="293">无差异 · Indifferent</text>
+
+  <!-- 反向 reverse：标签放在曲线最左上端外 -->
+  <line class="k-curve-reverse" x1="130" y1="120" x2="650" y2="430"/>
+  <text class="k-curve-label k-label-reverse" x="155" y="110">反向 · Reverse</text>
+
+  <!-- ============ 中间：引线区（680 - 720） ============ -->
+  <!-- 每个功能：曲线锚点(F*_X, F*_Y) → 列表行(720, listY) -->
+  <line class="k-leader" x1="{{F1_X}}" y1="{{F1_Y}}" x2="720" y2="115"/>
+  <line class="k-leader" x1="{{F2_X}}" y1="{{F2_Y}}" x2="720" y2="173"/>
+  <line class="k-leader" x1="{{F3_X}}" y1="{{F3_Y}}" x2="720" y2="231"/>
+  <line class="k-leader" x1="{{F4_X}}" y1="{{F4_Y}}" x2="720" y2="289"/>
+  <line class="k-leader" x1="{{F5_X}}" y1="{{F5_Y}}" x2="720" y2="347"/>
+  <line class="k-leader" x1="{{F6_X}}" y1="{{F6_Y}}" x2="720" y2="405"/>
+
+  <!-- ========== 功能锚点（曲线上的小圆 + 编号） ========== -->
+  <g class="kano-feature {{F1_CLASS}}">
+    <circle class="k-anchor" cx="{{F1_X}}" cy="{{F1_Y}}" r="10"/>
+    <text class="k-anchor-num" x="{{F1_X}}" y="{{F1_Y}}">{{F1_NUM}}</text>
+  </g>
+  <g class="kano-feature {{F2_CLASS}}">
+    <circle class="k-anchor" cx="{{F2_X}}" cy="{{F2_Y}}" r="10"/>
+    <text class="k-anchor-num" x="{{F2_X}}" y="{{F2_Y}}">{{F2_NUM}}</text>
+  </g>
+  <g class="kano-feature {{F3_CLASS}}">
+    <circle class="k-anchor" cx="{{F3_X}}" cy="{{F3_Y}}" r="10"/>
+    <text class="k-anchor-num" x="{{F3_X}}" y="{{F3_Y}}">{{F3_NUM}}</text>
+  </g>
+  <g class="kano-feature {{F4_CLASS}}">
+    <circle class="k-anchor" cx="{{F4_X}}" cy="{{F4_Y}}" r="10"/>
+    <text class="k-anchor-num" x="{{F4_X}}" y="{{F4_Y}}">{{F4_NUM}}</text>
+  </g>
+  <g class="kano-feature {{F5_CLASS}}">
+    <circle class="k-anchor" cx="{{F5_X}}" cy="{{F5_Y}}" r="10"/>
+    <text class="k-anchor-num" x="{{F5_X}}" y="{{F5_Y}}">{{F5_NUM}}</text>
+  </g>
+  <g class="kano-feature {{F6_CLASS}}">
+    <circle class="k-anchor" cx="{{F6_X}}" cy="{{F6_Y}}" r="10"/>
+    <text class="k-anchor-num" x="{{F6_X}}" y="{{F6_Y}}">{{F6_NUM}}</text>
+  </g>
+
+  <!-- ============ 右侧：功能列表区（720 - 1080） ============ -->
+  <rect class="k-list-panel" x="720" y="80" width="360" height="350" rx="4"/>
+  <text class="k-list-title" x="740" y="100">FEATURE  ANCHORS  ·  功 能 锚 点</text>
+  <line class="k-list-row-line" x1="720" y1="108" x2="1080" y2="108"/>
+
+  <g class="kano-list-item">
+    <circle cx="740" cy="135" r="9" fill="#f9f5ec" stroke="{{F1_LIST_COLOR}}" stroke-width="1.4"/>
+    <text class="k-list-num" x="740" y="135">{{F1_NUM}}</text>
+    <text class="k-list-name" x="758" y="128">{{F1_LABEL}}</text>
+    <text class="k-list-desc" x="758" y="146">{{F1_LIST_DESC}}</text>
+    <line class="k-list-row-line" x1="730" y1="160" x2="1070" y2="160"/>
+  </g>
+  <g class="kano-list-item">
+    <circle cx="740" cy="186" r="9" fill="#f9f5ec" stroke="{{F2_LIST_COLOR}}" stroke-width="1.4"/>
+    <text class="k-list-num" x="740" y="186">{{F2_NUM}}</text>
+    <text class="k-list-name" x="758" y="179">{{F2_LABEL}}</text>
+    <text class="k-list-desc" x="758" y="197">{{F2_LIST_DESC}}</text>
+    <line class="k-list-row-line" x1="730" y1="212" x2="1070" y2="212"/>
+  </g>
+  <g class="kano-list-item">
+    <circle cx="740" cy="237" r="9" fill="#f9f5ec" stroke="{{F3_LIST_COLOR}}" stroke-width="1.4"/>
+    <text class="k-list-num" x="740" y="237">{{F3_NUM}}</text>
+    <text class="k-list-name" x="758" y="230">{{F3_LABEL}}</text>
+    <text class="k-list-desc" x="758" y="248">{{F3_LIST_DESC}}</text>
+    <line class="k-list-row-line" x1="730" y1="263" x2="1070" y2="263"/>
+  </g>
+  <g class="kano-list-item">
+    <circle cx="740" cy="288" r="9" fill="#f9f5ec" stroke="{{F4_LIST_COLOR}}" stroke-width="1.4"/>
+    <text class="k-list-num" x="740" y="288">{{F4_NUM}}</text>
+    <text class="k-list-name" x="758" y="281">{{F4_LABEL}}</text>
+    <text class="k-list-desc" x="758" y="299">{{F4_LIST_DESC}}</text>
+    <line class="k-list-row-line" x1="730" y1="314" x2="1070" y2="314"/>
+  </g>
+  <g class="kano-list-item">
+    <circle cx="740" cy="339" r="9" fill="#f9f5ec" stroke="{{F5_LIST_COLOR}}" stroke-width="1.4"/>
+    <text class="k-list-num" x="740" y="339">{{F5_NUM}}</text>
+    <text class="k-list-name" x="758" y="332">{{F5_LABEL}}</text>
+    <text class="k-list-desc" x="758" y="350">{{F5_LIST_DESC}}</text>
+    <line class="k-list-row-line" x1="730" y1="365" x2="1070" y2="365"/>
+  </g>
+  <g class="kano-list-item">
+    <circle cx="740" cy="390" r="9" fill="#f9f5ec" stroke="{{F6_LIST_COLOR}}" stroke-width="1.4"/>
+    <text class="k-list-num" x="740" y="390">{{F6_NUM}}</text>
+    <text class="k-list-name" x="758" y="383">{{F6_LABEL}}</text>
+    <text class="k-list-desc" x="758" y="401">{{F6_LIST_DESC}}</text>
+  </g>
+
+  <!-- 图例（移到下方） -->
+  <rect class="k-legend-box" x="80" y="510" width="540" height="62"/>
+  <text class="k-legend-title" x="98" y="528">FEATURE TYPES · 类型图例</text>
+  <line class="k-curve-must" x1="98" y1="545" x2="128" y2="545"/>
+  <text class="k-legend-item" x="134" y="549">基本型·缺则不满</text>
+  <line class="k-curve-perf" x1="248" y1="545" x2="278" y2="545"/>
+  <text class="k-legend-item" x="284" y="549">期望型·多多益善</text>
+  <line class="k-curve-delight" x1="398" y1="545" x2="428" y2="545"/>
+  <text class="k-legend-item" x="434" y="549">兴奋型·惊喜引爆</text>
+  <line class="k-curve-indiff" x1="98" y1="562" x2="128" y2="562"/>
+  <text class="k-legend-item" x="134" y="566">无差异 / 反向·慎做</text>
+
+  <!-- 底部签名 -->
+  <text x="900" y="565" style="font-family:'Kaiti SC',serif;font-size:11px;fill:#8a8a8a;text-anchor:middle;letter-spacing:0.2em;">Kano Model · Noriaki Kano</text>
+</svg>

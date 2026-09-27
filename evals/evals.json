@@ -6,7 +6,7 @@
       "name": "clear-b2b-saas-feature",
       "clarity": "clear",
       "prompt": "我们是一家做销售 CRM 的 B 端 SaaS，目标客户是 30-200 人规模的 SaaS 公司，已经做了 2 年，目前 ARR 大约 800w 人民币。我们最近发现一个问题：客户成功团队（CSM）每次给客户开月度回顾会前，要花 2-3 小时手动从我们系统、客户的 Slack、客户的 Salesforce 里拉数据拼成 PPT。我想做一个'客户健康度仪表盘'功能，让 CSM 一键看到每个客户的健康度（使用频率、活跃用户数、关键功能采用度、最近一次 NPS 分数、续费风险信号），目标是降低 CSM 的开会准备时间，同时提升客户续费率（目前续费率 78%，目标提升到 85%）。帮我做一份产品设计稿。",
-      "expected_output": "应该重点做三幕（决策）、四幕（设计）、五幕（度量）；一幕和二幕简写。附录 A 调度日志应说明为何重三/四/五幕。附录 B 应有北极星指标和反指标。HTML 应含 RICE/Kano 决策、用户旅程（CSM 准备会议→使用仪表盘→生成 PPT 的流程）、HEART 表格、AARRR 漏斗（仪表盘的采用→活跃→留存）",
+      "expected_output": "基于给定 CSM 任务明确 MVP、输入来源、权限和准备会议到回顾的核心流程，给出关键界面及时间/续费目标的验证方法。现有数字标为用户提供，目标不写成已实现效果。按需要选理论，不强制 AARRR 或虚构优先级分数。",
       "files": []
     },
     {
@@ -14,7 +14,7 @@
       "name": "semi-fuzzy-indie-tool",
       "clarity": "semi-fuzzy",
       "prompt": "我是个独立开发者，业余时间想做个产品。最近我和身边几个朋友都有同一个困扰：脑子里冒出来很多创业 idea，但根本不知道哪个值得做，哪些是伪需求。我想做一个工具帮独立开发者快速验证一个 idea 值不值得做。但我对'怎么帮'还没想清楚——是给一个 checklist？还是让大家提交 idea 后社区投票？还是 AI 帮分析？麻烦给我做个产品设计稿。",
-      "expected_output": "应该先用 AskUserQuestion 问 3-4 个关键点（目标用户细分/商业模式/差异化假设）。然后基于回答做设计稿。重点做一幕（用 JTBD 挖出独立开发者验证 idea 的真实任务）、二幕（Lean Canvas + 价值主张）、三幕（MVP 决策，强烈推荐砍掉 70% 想法）。附录 B 必有多个 🔴 CRITICAL 假设需要验证（如：独立开发者是否真的为这个付费？验证 idea 的最大瓶颈是什么？）",
+      "expected_output": "澄清会影响方向且上下文缺失的问题，或按用户授权列明假设继续。围绕独立开发者验证 idea 的任务比较有限候选方案，划清 MVP 和待验证的价值/付费假设，不预设必须砍掉某个比例。",
       "files": []
     },
     {
@@ -22,7 +22,15 @@
       "name": "fully-fuzzy-emotional-observation",
       "clarity": "fully-fuzzy",
       "prompt": "我最近观察到一个现象：很多上班族下班回家后明明很累、很想睡觉，但又会刷手机刷到 1、2 点才睡，第二天起来又困。我自己也是这样。我感觉这里面有什么需求没被满足，想做点什么帮这些人。但我完全没想清楚是个 app、还是硬件、还是什么形态。能帮我做个产品设计稿吗？",
-      "expected_output": "应该先用 AskUserQuestion 问 3-5 个关键点（这是完全模糊型）。然后重点做一幕（深挖 JTBD——这些人晚睡刷手机的'真实任务'到底是什么？是放松？是逃避？是补偿一天的失控感？）、二幕（Lean Canvas 草图 + HMW）。三/四/五幕应明显简写或在附录 A 说明跳过。附录 B 应有大量 🔴 CRITICAL 假设。整个稿子应该体现'敢说不确定、敢做减法'的成熟度——绝对不应该装模作样地填满所有章节",
+      "expected_output": "明确观察与原因假设的区别，保留尚未确定的形态。可以先产出问题定义、候选方向和验证计划；不把补偿感等解释当作已证实研究结论，不为填模板强制画最终界面。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "scoped-follow-up",
+      "clarity": "existing",
+      "prompt": "上一版已确定网页工作台、三个核心功能和用户流程。本次只改度量章节：把北极星从登录次数改为完成一份可用回顾材料的客户数，保留其他内容，直接修改现有设计稿，不再问问题。",
+      "expected_output": "使用评测者提供的现有 HTML，只调整指标定义、必要的关联引用及反指标；不重新澄清定位或重做其余章节。缺乏真实数据时不填造目标。",
       "files": []
     }
   ],
@@ -34,27 +42,27 @@
     },
     {
       "id": "asks_before_outputting",
-      "text": "For semi-fuzzy and fully-fuzzy cases, used AskUserQuestion to clarify 2-4 key points BEFORE producing HTML (skipped for clear case)",
+      "text": "Only asks when missing information materially changes the requested design; respects sufficient context, delegated judgment and explicit no-question follow-ups.",
       "type": "behavior"
     },
     {
       "id": "html_uses_template",
-      "text": "HTML output is based on the template.html skeleton (has 序/一幕/二幕/三幕/四幕/五幕/终章/附录 structure)",
+      "text": "New HTML uses appropriate parts of the supplied template; omitted sections and navigation anchors remain consistent. Existing scoped edits preserve the input document.",
       "type": "content"
     },
     {
       "id": "scheduling_log_appendix",
-      "text": "Appendix A '理论调度日志' is filled with specific theories used + reasons why, not boilerplate",
+      "text": "Explains consequential theory choices briefly where useful; no mandatory long appendix for small edits.",
       "type": "content"
     },
     {
       "id": "confidence_report_appendix",
-      "text": "Appendix B '可信度报告' lists CRITICAL assumptions explicitly, with at least 2-3 items for fuzzy cases",
+      "text": "Identifies consequential unresolved assumptions and practical validation methods without inventing a fixed number of risks.",
       "type": "content"
     },
     {
       "id": "three_tier_trust_labels",
-      "text": "HTML uses three-tier confidence labels (VERIFIED/INFERRED/CRITICAL) consistently, not putting speculation as fact",
+      "text": "Distinguishes sourced/user-provided facts, inference and critical assumptions where they occur; does not fabricate content just to use every label.",
       "type": "content"
     },
     {
@@ -74,7 +82,7 @@
     },
     {
       "id": "svg_visualizations_used",
-      "text": "HTML embeds at least 2 of the 5 SVG templates (journey-map, kano-matrix, aarrr-funnel, ia-tree, north-star-card)",
+      "text": "Uses readable wireframes/flows when needed for the requested concrete design, without a fixed SVG count; exploration can leave form undecided.",
       "type": "content"
     },
     {
@@ -86,6 +94,12 @@
       "id": "no_placeholder_remnants",
       "text": "No unfilled {{placeholder}} markers remain in the final HTML",
       "type": "content"
+    },
+    {
+      "id": "scope_and_resource_integrity",
+      "text": "Preserves requested scope, uses resource paths relative to the installed skill, and escapes user content instead of inserting executable markup.",
+      "type": "behavior"
     }
-  ]
+  ],
+  "evaluation_notes": "本文件定义行为验收场景，不包含模型执行或评分结果。第4项由评测者提供一份现有HTML作为输入。"
 }
